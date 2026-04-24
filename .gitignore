@@ -310,4 +310,6 @@ psd
 thumb
 sketch
 
+.gitignore
+
 # End of https://www.toptal.com/developers/gitignore/api/python,flask,nextjs,react
