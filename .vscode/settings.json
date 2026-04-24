@@ -1,0 +1,6 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "npm --prefix c:\\Users\\Mihai\\Documents\\codestorm\\webapp": true,
+        "c:/Users/Mihai/Documents/codestorm/.venv/Scripts/python.exe": true
+    }
+}
