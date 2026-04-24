@@ -8,6 +8,7 @@ You now have a fully functional **3-agent pipeline** for curriculum data process
 - **Extraction Agent**: Reads PDF tables → extracts courses, credits, hours
 - **Verification Agent**: Validates data integrity → reports errors & warnings
 - **Storage Agent**: Persists results to JSON files with timestamps
+- **Document Converter**: PDF ↔ DOCX conversion endpoints for quick file interoperability
 
 ### Frontend (Next.js)
 - Clean upload interface with drag-and-drop
@@ -57,6 +58,20 @@ Content-Type: multipart/form-data
 ```bash
 GET http://localhost:5000/list-results
 # Returns array of all stored JSON files
+```
+
+### Convert PDF to DOCX
+```bash
+POST http://localhost:5000/convert/pdf-to-docx
+Content-Type: multipart/form-data
+Form field: file=<your.pdf>
+```
+
+### Convert DOCX to PDF
+```bash
+POST http://localhost:5000/convert/docx-to-pdf
+Content-Type: multipart/form-data
+Form field: file=<your.docx>
 ```
 
 ## 📂 Project Structure
