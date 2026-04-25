@@ -1,0 +1,107 @@
+FIŞA DISCIPLINEI
+1. Date despre program
+|1. Date despreprogram||
+|---|---|
+|1.1 Instituția de învățământ superior|Universitatea Transilvania din Brașov|
+|1.2 Facultatea|Matematicăși Informatică|
+|1.3 Departamentul|Matematicăși Informatică|
+|1.4 Domeniul de studii de licență1)|Informatică|
+|1.5 Ciclul de studii2)|Licență|
+|1.6 Programul de studii/ Calificarea|Informatică Aplicată / Licențiat în Informatică|
+2. Date despre disciplină
+|2. Date despre disciplină|2. Date despre disciplină|2. Date despre disciplină|||||||||
+|---|---|---|---|---|---|---|---|---|---|---|
+|2.1 Denumirea disciplinei|||Fundamentele Algebrice ale Informaticii||||||||
+|2.2 Titularul activităților de curs||||||Lector dr. Adelina-Loredana MANEA|||||
+|2.3 Titularul activităților de seminar/ laborator/<br>proiect||||||Lector dr. Adelina-Loredana MANEA|||||
+|2.4 Anul de studiu|1|2.5 Semestrul||1|2.6 Tipul de evaluare||C|2.7 Regimul<br>disciplinei|Conținut3)|DF|
+||||||||||Obligativitate3)|DI|
+3. Timpul total estimat (ore pe semestru al activităților didactice)
+|3.1 Număr de ore pe săptămână|4|4|din care: 3.2 curs|2|3.3 seminar/ laborator/<br>proiect|2/0/0|
+|---|---|---|---|---|---|---|
+|3.4 Total ore din planul de<br>învățământ|56||din care: 3.5 curs|28|3.6 seminar/ laborator/<br>proiect|28/0/0|
+|Distribuția fondului de timp||||||ore|
+|Studiul după manual, suport de curs, bibliografieşi notițe||||||35|
+|Documentare suplimentară în bibliotecă,peplatformele electronice de specialitateşipe teren||||||20|
+|Pregătire seminare/ laboratoare/proiecte, teme, referate,portofoliişi eseuri||||||30|
+|Tutoriat||||||5|
+|Examinări||||||4|
+|Alte activități.....................................|||||||
+|3.7 Total ore de activitate a studentului||94|||||
+|3.8 Total orepe semestru||150|||||
+|3.9 Numărul de credite5)||5|||||
+|4. Precondiții (acolo unde este cazul)|||||||
+|4.1 de curriculum||• Elemente de algebră ,cl. XI-XII liceu|||||
+|4.2 de competențe||• Cunoaşterea calculului matriceal.<br>• Cunoaşterea noțiunilor de permutare, transpoziție, signatura.<br>• Cunoaşterea determinanților.<br>• Cunoașterea tipurilor de structuri algebrice studiate în liceu.|||||
+5. Condiții (acolo unde este cazul)
+|5. Condiții (acolo unde este cazul)||
+|---|---|
+|5.1 de desfăşurare a cursului|• Sală de curs cu tablășiproiector|
+|5.2 de desfăşurare a seminarului/<br>laboratorului/proiectului|• Sală de curs cu tablă|
+6. Competențe specifice acumulate (conform grilei de competențe din planul de învățământ)
+F03.1-PS7.2-01/ed.3, rev.6
+1
+|Comp<br>etenț<br>e<br>profe<br>sional<br>e|CP3. Utilizarea instrumentelor informatice în context interdisciplinar<br>• Cunoștințe<br>• R.Î.3.1. Absolventul poate utiliza instrumente informatice (folosind tehnologii specifice) pentru a colecta,<br>analiza și interpreta date din diferite domenii de activitate.<br>• R.Î.3.2. Absolventul poate evalua și selecta instrumente informatice adecvate pentru rezolvarea problemelor<br>interdisciplinare, având abilitatea de a analiza nevoile specifice ale unui proiect și de a alege soluții tehnologice<br>eficiente.<br>• Aptitudini<br>• R.Î.3.3. Absolventul poate implementa metode de testare și evaluare a software-ului, inclusiv testarea interactivă<br>și feedback-ul utilizatorilor din diverse discipline, pentru a asigura calitatea și funcționalitatea aplicațiilor create.<br>• R.Î.3.4. Studentul/absolventul dezvoltă interesul pentru literatura de specialitate națională și internațională,<br>participarea la cursuri specializate, conferințe, simpozioane, etc. pentru dezvoltarea profesională şi personală<br>continuă și adaptarea eficientă la noile descoperiri ştiinţifice.<br>• Responsabilitate și autonomie<br>• R.Î.3.5. Absolventul poate să comunice și să colaboreze eficient cu specialiști din alte domenii, utilizând<br>instrumente informatice specifice, dezvoltând competențe de lucru în echipă și abilități de gestionare a<br>proiectelor interdisciplinare.<br>CP4. Utilizarea bazelor teoretice ale informaticii și a modelelor formale<br>• Cunoștințe<br>• R.Î.4.1. Absolventul poate să verifice corespondența dintre capacitățile, corectitudinea și eficienta unui algoritm<br>sau a unui sistem intenționat și anumite specificații formale.<br>• R.Î.4.2. Absolventul poate să utilizeze modele formale și teorii matematice pentru a rezolva probleme din<br>diverse domenii ale informaticii.<br>• Aptitudini<br>• R.Î.4.3. Absolventul poate să utilizeze concepte și tehnici matematice pentru a analiza și proiecta algoritmi și<br>structuri de date folosind tehnologii specifice.<br>• R.Î.4.4. Absolventul poate să utilizeze modele formale pentru a proiecta sisteme informatice sigure și fiabile.<br>• R.Î.4.5. Absolventul poate să utilizeze modele formale pentru a verifica corectitudinea programelor.<br>• Responsabilitate și autonomie<br>• R.Î.4.6. Studentul/absolventul construiește etic și responsabil soluții IT sigure și scalabile, colaborând cu<br>specialiști din domenii conexe.<br>• R.Î.4.7. Studentul/absolventul dezvoltă un mediu colaborativ și își asumă responsabilitatea pentru succesul<br>livrării proiectelor la timp și conform cerințelor. Studentul/absolventul organizează echipe tehnice și gestionează<br>ciclul de viață al proiectelor software.|
+|---|---|
+|Comp<br>etenț<br>e<br>trans<br>versal<br>e|CT1 Aplicarea regulilor de muncă organizată şi eficientă, a unor atitudini responsabile față de domeniul<br>didactic-ştiințific, pentru valorificarea creativă a propriului potențial, cu respectarea principiilor şi a normelor de<br>etică profesională<br>• R.Î.1.1. Absolventul este capabil să-și organizeze și gestioneze timpul și resursele pentru a atinge obiectivele de<br>învățare.<br>• R.Î.1.2. Absolventul este capabil să desfășoare activitate creatoare, să se dezvolte profesional și să abordeze noi<br>domenii, adaptându-se cerințelor nou apărute.<br>• R.Î.1.3. Absolventul are capacitatea de a acționa în mod responsabil și etic în activitățile didactice și de<br>cercetare, demonstrând integritate și respect față de colegi, studenți și comunitatea academică.<br>• R.Î.1.4. Absolventul are abilitatea de a-și organiza și prioritiza activitățile pentru a asigura o muncă eficientă și<br>productivă, respectând termenele limită și obiectivele stabilite.<br> <br>CT3 Utilizarea unor metode şi tehnici eficiente de învățare, informare, cercetare şi dezvoltare a capacităților de<br>valorificare a cunoştințelor, de adaptare la cerințele unei societăți dinamice şi de comunicare în limba română şi<br>într-o limbă de circulație internațională<br>• R.Î.3.1. Absolventul va utiliza metode și tehnici eficiente de învățare pentru a-și îmbunătăți performanța<br>academică.<br>• R.Î.3.2. Absolventul va utiliza instrumente și tehnici eficiente pentru a informa și comunica informații complexe<br>într-un mod clar și concis.<br>R.Î.3.3. Absolventul poate evalua critic sursele de informație, identificând cele mai relevante și credibile<br>materiale pentru a sprijini deciziile informate și fundamentate.<br>|
+F03.1-PS7.2-01/ed.3, rev.6
+2
+7. Obiectivele disciplinei (reieşind din competențele specifice acumulate)
+|7.1 Obiectivul general al disciplinei|Cursul de FAI este unul de tip fundamental. Sunt studiate noțiuni algebrice utile<br>în studiul disciplinelor studiate inprogram.|
+|---|---|
+|7.2 Obiectivele specifice|• Utilizarea relațiilor matematice.<br>• Utilizarea noțiunilor de funcție și relație, clasă de echivalență și partiționare<br>a unei mulțimi.<br>• Introducerea noțiunilor de semigrup liber generat de o mulțime cel mult<br>numărabilă.<br>• Utilizarea noțiunilor de structuri algebrice finite.<br>• Aprofundarea algebrei liniare<br>• Tehnici speciale in calcul polinomial.<br>Introducerea noțiunilor de coduri liniare|
+8. Conținuturi
+|8. Conținuturi||||
+|---|---|---|---|
+|8.1 Curs|Metode depredare|Număr de ore|Observații|
+|Mulțimi. Funcții. Relații|Expunere, demonstrație, exemple|2||
+|Monoid. Monoidul libergenerat de o mulțime|Expunere, demonstrație, exemple|2||
+|Grupuri|Expunere, demonstrație, exemple|4||
+|Grupuri depermutări|Expunere, demonstrație, exemple|2||
+|Ordinul unui element. Grupuri ciclice|Expunere, demonstrație, exemple|2||
+|Ineleși corpuri|Expunere, demonstrație, exemple|4||
+|Inele depolinoame|Expunere, demonstrație, exemple|2||
+|Spații vectoriale. Subspații. Bază și<br>dimensiune.|Expunere, demonstrație, exemple|6||
+|Coduri liniare|Expunere, demonstrație, exemple|4||
+|Bibliografie<br>• C.Nastasescu, C. Nita-"Bazele algebrei", vol I, Editura Acad. RSR, 1986<br>• C. Szasz – “Curs de algebra. Introducere în algebră”, Brasov 1978<br>• I.D. Ion, C. Nita, N. Radu, D. Popescu – “ Probleme de algebră”, Editura Didactică și Pedagogică 1981<br>• F.L.iplea – “Fundamentele algebrice ale informaticii”, Editura Polirom 2006.<br>• M. Ganga, "Algebra", manual pentru cls. XII, Editura Mathpress 2007<br>• A. Atanasiu, “Teoria codurilor”, Editura Univiersității București, 2001<br>• G. Cullmann – “Coduri detectoare și corectoare de erori”, Editura Tehnica 1972<br>• C. Mihu- Metode numerice în algebra liniară, Editura Tehnică 1977<br>• A. Horvath- Introducere în algebra computațională, Editura Didactică și Pedagogică 2012||||
+|8.2 Seminar/ laborator/proiect|Metode depredare-învățare|Număr de ore|Observații|
+|Mulțimi. Funcții. Relații|Exemplul, exercițiul, lucru<br>individual|2||
+|Monoid. Monoidul liber generat de o mulțime|Exemplul, exercițiul, lucru<br>individual|2||
+|Grupuri|Exemplul, exercițiul, lucru<br>individual|4||
+|Grupuri de permutări|Exemplul, exercițiul, lucru<br>individual|2||
+|Ordinul unui element. Grupuri ciclice|Exemplul, exercițiul, lucru<br>individual|2||
+|Ineleși corpuri|Exemplul, exercițiul, lucru|4||
+F03.1-PS7.2-01/ed.3, rev.6
+3
+||individual|||
+|---|---|---|---|
+|Inele de polinoame|Exemplul, exercițiul, lucru<br>individual|2||
+|Spații vectoriale. Subspații. Bază și<br>dimensiune.|Expunere, demonstrație, exemple|6||
+|Coduri liniare|Expunere, demonstrație, exemple|4||
+|Bibliografie<br>1. I.D. Ion, C. Nita, N. Radu, D. Popescu – “ Probleme de algebra”, EDP 1981<br>2. C. Radu, C. Dragusin, L. Dragusin – “ Aplicații de algebră, geometrie și matematici speciale”, EDP 1991||||
+9. Coroborarea conținuturilor disciplinei cu aşteptările reprezentanților comunităților epistemice, ale asociaților profesionale şi ale angajatorilor reprezentativi din domeniul aferent programului
+Conținuturile sunt în concordanță cu problematica monografiilor apărute în ultimii ani în literatura de specialitate și sunt adaptate la necesitățile programelor de informatică și informatică aplicată.
+10. Evaluare
+|10. Evaluare||||
+|---|---|---|---|
+|Tip de activitate|10.1 Criterii de evaluare|10.2 Metode de evaluare|10.3 Pondere<br>din nota finală|
+|10.4 Curs|Acuratețea tratării subiectelor<br>teoretice|Lucrare scrisă|20%|
+|10.5 Seminar/ laborator/<br>proiect|Corectitudinea rezolvării<br>aplicațiilorpractice|Lucrare scrisă|80%|
+|10.6 Standard minim deperformanță||||
+|• Rezolvarea subiectului de coduri liniare<br>• Obținerea notei finale minim 5||||
+Prezenta Fișă de disciplină a fost avizată în ședința de Consiliu de departament din data de 17/07/2025 și aprobată în ședința de Consiliu al facultății din data de 17/07/2025
+|în ședința de Consiliu al facultății din data de 17/07/2025||
+|---|---|
+|Conf. dr. Ion Gabriel STAN<br>Decan|Conf. dr. Nicușor MINCULETE<br>Director de departament|
+|Lector univ. dr. Adelina-Loredana MANEA<br>Titular de curs|Lector univ.dr. Adelina-Loredana MANEA<br>Titular de seminar|
+Notă:
+- 1) Domeniul de studii - se alege una din variantele: Licență/ Masterat/ Doctorat (se completează conform cu Nomenclatorul domeniilor şi al specializărilor/ programelor de studii universitare în vigoare);
+- 2) Ciclul de studii - se alege una din variantele: Licență/ Masterat/ Doctorat;
+- 3) Regimul disciplinei (conținut) - se alege una din variantele: DF (disciplină fundamentală)/ DD (disciplină din domeniu)/ DS (disciplină de specialitate)/ DC (disciplină complementară) - pentru nivelul de licență; DAP
+F03.1-PS7.2-01/ed.3, rev.6
+4
+- (disciplină de aprofundare)/ DSI (disciplină de sinteză)/ DCA (disciplină de cunoaştere avansată) - pentru nivelul de masterat;
+- 4) Regimul disciplinei (obligativitate) - se alege una din variantele: DI (disciplină obligatorie)/ DO (disciplină opțională)/ DFac (disciplină facultativă);
+- 5) Un credit este echivalent cu 30 de ore de studiu (activități didactice şi studiu individual).
+F03.1-PS7.2-01/ed.3, rev.6
+5

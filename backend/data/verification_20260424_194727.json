@@ -1,0 +1,12 @@
+{
+  "is_valid": false,
+  "errors": [
+    "No course data found"
+  ],
+  "warnings": [],
+  "summary": {
+    "total_courses": 0,
+    "total_errors": 1,
+    "total_warnings": 0
+  }
+}

@@ -1,0 +1,11 @@
+# Minimal runtime for Flask app (use repo .venv or: pip install -r requirements.txt)
+flask>=3.0
+flask-cors>=4.0
+python-dotenv>=1.0
+pydantic>=2.0
+google-genai>=1.0
+pymupdf>=1.24
+python-docx>=1.0
+reportlab>=4.0
+docxtpl>=0.16
+unidiff>=0.7

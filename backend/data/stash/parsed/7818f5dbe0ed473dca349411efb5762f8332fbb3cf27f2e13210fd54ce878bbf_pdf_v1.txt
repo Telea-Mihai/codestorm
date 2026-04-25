@@ -1,0 +1,59 @@
+PLAN DE ÎNVĂȚĂMÂNT
+al promoției 2024-2027
+Universitatea Transilvania din Brașov
+| Field | Value |
+| :--------------------------------- | :----------------------------------- |
+| Programul de studii universitare de licență: | INFORMATICĂ |
+| Domeniul fundamental: | Matematică și științe ale naturii |
+| Domeniul de licență: | Informatică |
+| Facultatea: | Matematică și informatică |
+| Durata studiilor: | 3 ani |
+| Forma de învățământ: | la distanță (ID) |
+F01.1-PS-CIDIFR-02/ed.4,rev.4
+1
+1. OBIECTIVE DE FORMARE ȘI COMPETENȚE
+Obiectivul general al programului de studii constă în formarea specialistului cu studii de licență în domeniul informatică.
+Obiectivele educaționale vizează:
+- formarea de specialiști pregătiți pentru abordarea proiectelor de dezvoltare în firmele IT, capabili să facă față schimbărilor, pentru a se integra în programe de dezvoltare tehnologică și științifică și pentru a dezvolta activități didactice;
+- dezvoltarea capacităților de comunicare și de integrare într-o colectivitate;
+- dezvoltarea personalității, a receptivității față de construcțiile teoretice și de utilitatea aplicațiilor;
+- formarea unui sistem de valori de etică profesională.
+Programul de studii pregătește specialiști pentru ocupațiile de: programator, inginer de sistem în informatică, proiectant de sisteme informatice, cu orientare către dezvoltarea și implementarea sistemelor și aplicațiilor distribuite și mobile. Disciplinele incluse în planul de învățământ asigură absolventului capacitatea de a programa (scrie software) în diverse limbaje de programare, utilizând diverse tehnologii, conducând la proiectarea, implementarea, dezvoltarea, depanarea, testarea și întreținerea aplicațiilor software. Absolventul poate proiecta și implementa sisteme de gestiune a datelor, poate analiza și gestiona date diverse și este pregătit pentru a urmări funcționarea, integrarea și întreținerea sistemelor de calcul, poate gestiona accesul utilizatorilor la sisteme și poate realiza și gestiona documentații tehnice. De asemenea, asigură instalarea, actualizarea, testarea și restaurarea sistemelor de calcul, inclusiv a sistemelor de operare, acordând pentru acestea asistență software și consultanță utilizatorilor.
+Ocupațiile asociate programului de studiu sunt înscrise în Registrul Național al Calificărilor din învățământul Superior (RNCIS) astfel: analist (cod 251201), inginer de sistem în informatică (cod 251203), programator (cod 251202).
+Profilul de competențe dezvoltat în concordanță cu nevoile identificate pe piața muncii și cu cadrul național al calificărilor, precum și rezultatele învățării asociate acestor competențe sunt prezentate sintetic mai jos. Prezentarea detaliată a acestora se regăsește în fișele disciplinelor din planul de învățământ.
+Competențe profesionale și rezultatele învățării
+CP1. Creează softuri, dezvoltă prototipul pentru software.
+R.Î. 1.1. Absolventul transpune o serie de cerințe într-un concept de software clar și organizat.
+R.Î. 1.2. Absolventul creează o primă versiune incompletă sau preliminară a unei aplicații software pentru a simula unele aspecte specifice ale produsului final.
+CP2. Utilizează șabloane de proiectare de software, creează diagrama de proces.
+R.Î. 2.1. Absolventul utilizează soluții reutilizabile, întocmește cele mai bune practici în vederea îndeplinirii activităților comune de dezvoltare TIC în dezvoltarea și proiectarea de software.
+R.Î. 2.2. Absolventul alcătuiește o diagramă care ilustrează progresul sistematic înregistrat pe parcursul unei proceduri sau al unui sistem utilizând linii de legătură și un set de simboluri.
+CP3. Analizează specificații software, definește arhitectura software, proiectează sistemul informatic.
+R.Î. 3.1. Absolventul evaluează specificațiile unui produs sau sistem software care urmează să fie dezvoltat prin identificarea cerințelor funcționale și nefuncționale, a constrângerilor și a posibilelor seturi de cazuri de utilizare care ilustrează interacțiunile dintre software și utilizatorii săi.
+R.Î. 3.2. Absolventul creează și documentează structura produselor software, inclusiv componentele, cuplarea și interfețele. Asigură fezabilitatea, funcționalitatea și compatibilitatea cu platformele existente.
+R.Î. 3.3. Absolventul definește arhitectura, compoziția, componentele, modulele, interfețele și datele pentru sistemele informatice integrate (hardware, software și rețea), pe baza cerințelor și a specificațiilor sistemului.
+Competențe transversale și rezultatele învățării
+CT1. Aplică competențe de bază în materie de programare, operează echipamente hardware digitale.
+R.Î. 1.1. Absolventul enumeră instrucțiuni simple pentru un sistem informatic în vederea rezolvării problemelor sau a îndeplinirii sarcinilor la un nivel de bază și cu orientări adecvate, dacă este necesar.
+R.Î. 1.2. Absolventul utilizează echipamente precum monitor, mouse, tastatură, dispozitive de stocare, imprimante și scanere, pentru a efectua operațiuni precum conectarea, pornirea, oprirea, repornirea, salvarea fișierelor și alte operațiuni.
+CT2. Utilizează software de comunicare și colaborare, efectuează căutări pe internet.
+R.Î. 2.1. Absolventul utilizează instrumente și tehnologii digitale simple pentru a comunica, a interacționa și a colabora cu ceilalți.
+R.Î. 2.2. Absolventul caută date, informații și conținut, prin căutări simple în medii digitale.
+CT3. Identifică probleme, soluționează problema.
+R.Î. 3.1. Absolventul identifică și detectează diverse probleme și aspecte și ia decizii cu privire la cea mai bună cale de urmat.
+R.Î. 3.2. Absolventul raportează problemele în consecință atunci când este necesar.
+R.Î. 3.3. Absolventul găsește soluții la probleme practice, operaționale sau conceptuale într-o gamă largă de contexte.
+CT4. Demonstrează angajament, gândește rapid, gândește analitic, își menține concentrarea pentru perioade lungi de timp.
+R.Î. 4.1. Absolventul demonstrează disponibilitatea de a-și asuma imediat sarcinile, chiar dacă acestea sunt dificile sau incomode.
+R.Î. 4.2. Absolventul este în măsură să înțeleagă și să prelucreze cele mai importante aspecte ale faptelor și conexiunile acestora în mod rapid și precis.
+R.Î. 4.3. Absolventul gândește folosind logica și raționamentul pentru a identifica punctele tari și punctele slabe ale soluțiilor alternative, concluziilor sau abordărilor problemelor.
+R.Î. 4.4. Absolventul rămâne concentrat pe o perioadă lungă de timp pentru a judeca corect și a lua decizii adecvate.
+CT5. Lucrează în echipe, organizează informații, obiecte și resurse, dă dovadă de dorință de învățare, se adaptează la schimbare, face față stresului.
+R.Î. 5.1. Absolventul lucrează cu încredere în cadrul unui grup, fiecare făcând-și partea lui în serviciul întregului.
+F01.1-PS-CIDIFR-02/ed.4,rev.4
+2
+*Failed to process: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}*
+*Failed to process: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}*
+*Failed to process: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}*
+*Failed to process: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}*
+*Failed to process: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}*
