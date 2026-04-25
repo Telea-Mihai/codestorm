@@ -74,12 +74,11 @@ export default function BatchReplacePage() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Batch text replacements</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Supply several files plus find-and-replace rules. Preview counts matches without writing files;
-          apply exports plain-text snapshots on the server.
+          Supply several files plus find-and-replace rules.
         </p>
       </div>
 

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, Highlighter, MessageSquarePlus, Save, Trash2 } from "lucide-react";
+import { ArrowLeftIcon, Check, Highlighter, MessageSquarePlus, Save, Trash2 } from "lucide-react";
 
 import { backendUrl, getJson, putJson } from "@/lib/backend";
 import {
@@ -201,6 +201,12 @@ export default function WorkspaceDocumentPage() {
             <p className="text-xs text-zinc-500">Document workspace</p>
           </div>
           <div className="flex items-center gap-2">
+            <Button asChild size="sm" variant="outline" className="border-zinc-700 bg-transparent">
+              <span>
+              <ArrowLeftIcon className="size-4" aria-hidden />
+              <Link href="/dashboard">Back to library</Link>
+              </span>
+            </Button>
             <Button
               type="button"
               size="sm"
@@ -218,9 +224,6 @@ export default function WorkspaceDocumentPage() {
               onClick={() => setMode("markdown")}
             >
               Markdown
-            </Button>
-            <Button asChild size="sm" variant="outline" className="border-zinc-700 bg-transparent">
-              <Link href="/dashboard">Back to library</Link>
             </Button>
           </div>
         </div>

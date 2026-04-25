@@ -90,19 +90,9 @@ function IntegrityAiPageContent() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8">
+    <div className="mx-auto space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Integrity checks (Gemini)</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Set{" "}
-          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GEMINI_API_KEY</code>{" "}
-          in <span className="font-mono text-foreground">backend/.env</span> before running. Open from{" "}
-          <a className="text-primary underline-offset-2 hover:underline" href="/dashboard">
-            Documents
-          </a>{" "}
-          to pre-select a saved file (<span className="font-mono text-xs">?lib=</span> and{" "}
-          <span className="font-mono text-xs">?lib2=</span>).
-        </p>
+        <h1 className="text-2xl font-semibold tracking-tight">Integrity checks</h1>
       </div>
 
       {error ? (
@@ -113,7 +103,7 @@ function IntegrityAiPageContent() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">UC 1.1 — Integrity guard</CardTitle>
+          <CardTitle className="text-base">Integrity guard</CardTitle>
           <CardDescription>
             Visual scan for missing sections and empty or placeholder values.
           </CardDescription>
@@ -139,7 +129,7 @@ function IntegrityAiPageContent() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">UC 1.2 — Math consistency</CardTitle>
+          <CardTitle className="text-base">Math consistency</CardTitle>
           <CardDescription>
             Extract total hours and evaluation weights; backend adds deterministic alerts.
           </CardDescription>

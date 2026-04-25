@@ -63,16 +63,12 @@ function AuditPageContent() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Syllabus quality audit</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Detects very generic section titles, checks whether bibliography years look recent enough,
-          and validates the shape of external links. Cached locally per file until cleared. Open from{" "}
-          <a className="text-primary underline-offset-2 hover:underline" href="/dashboard">
-            Documents
-          </a>{" "}
-          with <span className="font-mono text-xs">?lib=</span> to pre-select a file.
+          and validates the shape of external links.
         </p>
       </div>
 

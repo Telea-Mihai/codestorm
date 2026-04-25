@@ -126,13 +126,12 @@ export default function TemplatesPage() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8">
+    <div className="mx-auto space-y-8">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Word templates</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Add and edit .docx templates stored only in this browser (IndexedDB). Use them from{" "}
-          <span className="font-medium text-foreground">Plan alignment</span> when bootstrapping a
-          draft, or download a copy anytime.
+          Add and edit .docx templates. Use them from{" "}
+  Plan alignment
         </p>
       </div>
 
