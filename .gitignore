@@ -176,7 +176,7 @@ cython_debug/
 /coverage
 
 # next.js
-/.next/
+*/.next/
 /out/
 
 # production

@@ -18,6 +18,8 @@ from parsers.syllabus_diff import (
     delete_stashed_parsed_content,
     extract_markdown_by_extension,
     extract_text_by_extension,
+    get_stashed_markdown_by_extension,
+    get_stashed_text_by_extension,
 )
 from uc3_usecases import (
     UC3Error,
@@ -208,8 +210,9 @@ def upload():
         parse_warning = None
         if source_path.lower().endswith('.pdf') or source_path.lower().endswith('.docx'):
             try:
-                # Pre-warm parsed cache so downstream tools can reuse extracted content.
+                # Pre-warm parsed and markdown caches so workspace loading can stay cache-only.
                 extract_text_by_extension(source_path)
+                extract_markdown_by_extension(source_path)
                 parse_cached = True
             except Exception as exc:
                 parse_warning = f'File uploaded, but parsed cache prewarm failed: {exc}'
@@ -265,14 +268,28 @@ def get_document_content(doc_hash: str):
         if os.path.exists(markdown_path):
             markdown = Path(markdown_path).read_text(encoding='utf-8', errors='ignore')
         elif ext in ('.pdf', '.docx'):
-            markdown = extract_markdown_by_extension(file_path)
+            # Workspace loads should reuse backend stash and avoid reparsing documents.
+            markdown = get_stashed_markdown_by_extension(file_path)
         else:
             markdown = Path(file_path).read_text(encoding='utf-8', errors='ignore')
 
         if ext in ('.pdf', '.docx'):
-            parsed_text = extract_text_by_extension(file_path)
+            parsed_text = get_stashed_text_by_extension(file_path)
+            if not markdown:
+                markdown = parsed_text
         else:
             parsed_text = markdown
+
+        if ext in ('.pdf', '.docx') and not parsed_text:
+            return (
+                jsonify(
+                    {
+                        'success': False,
+                        'error': 'Parsed cache not found for this document. Re-upload it to warm stash data.',
+                    }
+                ),
+                409,
+            )
     except (ValueError, SyllabusDiffError) as exc:
         return jsonify({'success': False, 'error': str(exc)}), 422
     except Exception as exc:

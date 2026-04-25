@@ -273,6 +273,24 @@ def delete_stashed_parsed_content(path: str) -> None:
             continue
 
 
+def get_stashed_text_by_extension(path: str) -> str:
+    lower = path.lower()
+    if lower.endswith('.pdf'):
+        return _read_stashed_parsed_text(path, 'pdf')
+    if lower.endswith('.docx'):
+        return _read_stashed_parsed_text(path, 'docx')
+    return ''
+
+
+def get_stashed_markdown_by_extension(path: str) -> str:
+    lower = path.lower()
+    if lower.endswith('.pdf'):
+        return _read_stashed_parsed_text(path, 'pdf_md')
+    if lower.endswith('.docx'):
+        return _read_stashed_parsed_text(path, 'docx_md')
+    return ''
+
+
 def build_syllabus_diff(old_text: str, new_text: str, include_unchanged: bool = True):
     old_lines = _to_lines(old_text)
     new_lines = _to_lines(new_text)
