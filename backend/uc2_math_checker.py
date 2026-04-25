@@ -1,7 +1,10 @@
 import os
-from google import genai
+
 from google.genai import types
 from pydantic import BaseModel, Field
+
+from gemini_config import get_gemini_client
+from parsers.syllabus_diff import extract_text_by_extension
 
 # ---------------------------------------------------------
 # 1. Definim Schema folosind Pydantic V2
@@ -17,14 +20,40 @@ class RaportMatematic(BaseModel):
     is_evaluation_sum_100: bool = Field(description="Valoare de adevar calculata DEDUSA vizual de tine: suma tuturor procentelor extrase este 100?")
 
 
-def verifica_consistenta_matematica(file_path: str):
-    # Folosim cheia API preluata din fisierul tau precedent
-    client = genai.Client(
-        api_key="AIzaSyA-MpGWCTJRmY18k7EgVZb2uQLp6-1I-io"
-    )
+def build_math_alerts(raport: RaportMatematic) -> list[str]:
+    """
+    Deterministic checks on top of the model output (hours bounds, sum to 100%).
+    """
+    alerte: list[str] = []
+    suma_totala_calculata = sum(item.procentaj for item in raport.evaluation_weights)
 
-    print(f"Încărcăm fișierul {file_path} pentru extragere matematică...")
-    uploaded_file = client.files.upload(file=file_path)
+    if suma_totala_calculata != 100:
+        alerte.append(
+            f"Suma procentelor de evaluare este {suma_totala_calculata}%, "
+            "dar ar trebui să fie fix 100%."
+        )
+
+    if not raport.is_evaluation_sum_100 and suma_totala_calculata == 100:
+        alerte.append(
+            "Modelul a marcat suma ca nefiind 100%, dar recalculul din cod dă 100% — "
+            "posibil fals pozitiv al modelului."
+        )
+
+    if raport.total_hours <= 0:
+        alerte.append("Timpul total estimat este mai mic sau egal cu 0 ore.")
+    elif raport.total_hours > 300:
+        alerte.append(
+            f"Ținta de ore ({raport.total_hours}) pare neobișnuit de mare pentru un curs."
+        )
+
+    return alerte
+
+
+def verifica_consistenta_matematica(file_path: str):
+    client = get_gemini_client()
+
+    print(f"Încărcăm textul deja pars-at din {file_path} pentru extragere matematică...")
+    document_text = extract_text_by_extension(file_path)
 
     # ---------------------------------------------------------
     # 2. Instrucțiuni de Sistem ("Sugestii / Comportament General")
@@ -38,12 +67,12 @@ def verifica_consistenta_matematica(file_path: str):
 
     # 3. Promptul Efectiv (User Input)
     prompt = """
-    You are a highly precise data extraction agent. Analyze the attached academic visual document.
-    Visually locate the tables or sections related to Course Hours and Evaluation (Ponderi de evaluare / Note Finale).
+    You are a highly precise data extraction agent. Analyze the provided parsed academic content.
+    Locate the sections related to Course Hours and Evaluation (Ponderi de evaluare / Note Finale).
 
     Extract the specific numeric value assigned to 'Timpul total estimat' (or similar wording for total hours).
     Then, extract all the distinct percentages/weights for all evaluation methods (Examen, Seminar, Parcurs, Proiect).
-    Finally, calculate visually if all the extracted percentages sum perfectly to 100%.
+    Finally, calculate whether all the extracted percentages sum perfectly to 100%.
     """
 
     print("Procesăm extragerea tabelară...")
@@ -52,8 +81,8 @@ def verifica_consistenta_matematica(file_path: str):
     response = client.models.generate_content(
         model='gemini-2.5-flash', # Folosim acelasi model Flash
         contents=[
-            uploaded_file, 
-            prompt
+            prompt,
+            f"Parsed document content:\n\n{document_text}",
         ],
         config=types.GenerateContentConfig(
             response_mime_type="application/json",
@@ -77,29 +106,13 @@ def verifica_consistenta_matematica(file_path: str):
 # Aceasta este zona unde programam Alertele dacă limitele depășesc parametrii!
 def executa_business_logic(raport: RaportMatematic):
     print("\n=== RAPORT FINAL: CONSISTENȚĂ MATEMATICĂ ===")
-    
-    alerte = []
-    
-    # 1. Verificam suma (Recalculata prin Cod Python, cea mai sigura varianta!)
-    suma_totala_calculata = sum(eval.procentaj for eval in raport.evaluation_weights)
-    
-    if suma_totala_calculata != 100:
-        alerte.append(f"Atenție: Suma procentelor de evaluare este {suma_totala_calculata}%, dar ar trebui să fie fix 100%.")
-        
-    # 2. Verificam valoarea dedusa de AI vs valoarea reala calculata de cod
-    if not raport.is_evaluation_sum_100 and suma_totala_calculata == 100:
-         alerte.append("AI-ul a marcat incorect un flag de eroare matematica la suma (AI False Positive), codul backend validează!")
-         
-    # 3. Alertă custom: dacă se depășesc limitele orelor! 
-    if raport.total_hours <= 0:
-        alerte.append("Aroare Critică: Timpul Total Estimat este mai mic sau egal cu 0 ore.")
-    elif raport.total_hours > 300: # Presupunem o limita academica de 300 de ore / semestru
-        alerte.append(f"Avertisment Ofertă: Ținta de ore ({raport.total_hours}) pare neobișnuit de imensă pentru un curs.")
+
+    alerte = build_math_alerts(raport)
 
     print(f"Total ore extrase din document: {raport.total_hours} ore")
     print(f"Repartizarea Notelor gasita:")
-    for eval in raport.evaluation_weights:
-        print(f"  -> {eval.nume_evaluare}: {eval.procentaj}%")
+    for entry in raport.evaluation_weights:
+        print(f"  -> {entry.nume_evaluare}: {entry.procentaj}%")
         
     if alerte:
         print("\n[!] ALERTE DE CONFORMITATE GĂSITE [!]")

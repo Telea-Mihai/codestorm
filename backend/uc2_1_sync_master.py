@@ -1,7 +1,10 @@
 import os
-from google import genai
+
 from google.genai import types
 from pydantic import BaseModel, Field
+
+from gemini_config import get_gemini_client
+from parsers.syllabus_diff import extract_text_by_extension
 
 # ---------------------------------------------------------
 # 1. Definim Schema Pydantic pt "The Sync Master"
@@ -22,14 +25,11 @@ class RaportSync(BaseModel):
 # 2. Logică Sync Master (Cross-Document Match)
 # ---------------------------------------------------------
 def ruleaza_sync_master(fisa_path: str, plan_path: str):
-    client = genai.Client(
-        api_key="AIzaSyA-MpGWCTJRmY18k7EgVZb2uQLp6-1I-io"
-    )
+    client = get_gemini_client()
 
-    print(f"Încărcăm documentele pentru analiza THE SYNC MASTER...")
-    # Incarcam cele 2 oferte comerciale / academice
-    fisa_doc = client.files.upload(file=fisa_path)
-    plan_doc = client.files.upload(file=plan_path)
+    print(f"Încărcăm textele deja parse-ate pentru analiza THE SYNC MASTER...")
+    fisa_text = extract_text_by_extension(fisa_path)
+    plan_text = extract_text_by_extension(plan_path)
 
     sugestii_sistem = (
         "Ești un sistem strict de validare corporativă / academică. "
@@ -38,7 +38,7 @@ def ruleaza_sync_master(fisa_path: str, plan_path: str):
     )
 
     prompt = """
-    Analizează cu maximă atenție cele două documente atașate.
+    Analizează cu maximă atenție cele două texte parse-ate primite.
     Document 1 este Fișa Disciplinei.
     Document 2 este Planul de Învățământ.
 
@@ -56,7 +56,11 @@ def ruleaza_sync_master(fisa_path: str, plan_path: str):
     print("Procesăm validarea de conformitate...")
     response = client.models.generate_content(
         model='gemini-2.5-flash', 
-        contents=[fisa_doc, plan_doc, prompt],
+        contents=[
+            prompt,
+            f"Document 1 - Fișa Disciplinei (parsed):\n\n{fisa_text}",
+            f"Document 2 - Planul de Învățământ (parsed):\n\n{plan_text}",
+        ],
         config=types.GenerateContentConfig(
             response_mime_type="application/json",
             response_schema=RaportSync,

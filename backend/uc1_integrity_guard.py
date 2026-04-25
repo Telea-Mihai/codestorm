@@ -1,7 +1,10 @@
 import os
-from google import genai
+
 from google.genai import types
 from pydantic import BaseModel, Field
+
+from gemini_config import get_gemini_client
+from parsers.syllabus_diff import extract_text_by_extension
 
 # ---------------------------------------------------------
 # 1. Definim Schema folosind Pydantic V2
@@ -16,15 +19,10 @@ class RaportIntegritate(BaseModel):
     )
 
 def verifica_integritate_document(file_path: str):
-    # Initializam clientul (Asigura-te ca ai variabila de mediu GEMINI_API_KEY setata)
-    # Ex: os.environ["GEMINI_API_KEY"] = "cheia_ta"
-    client = genai.Client(
-        api_key="AIzaSyA-MpGWCTJRmY18k7EgVZb2uQLp6-1I-io"
-    )
+    client = get_gemini_client()
 
-    print(f"Încărcăm fișierul {file_path}...")
-    # Incarcam vizual fisierul in AI (PDF/Imagine)
-    uploaded_file = client.files.upload(file=file_path)
+    print(f"Încărcăm textul deja pars-at din {file_path}...")
+    document_text = extract_text_by_extension(file_path)
 
     # ---------------------------------------------------------
     # 2. Instrucțiuni de Sistem ("Sugestii / Comportament General")
@@ -39,10 +37,10 @@ def verifica_integritate_document(file_path: str):
 
     # 3. Promptul Efectiv (User Input) - preluat din planul pentru UC 1.1
     prompt = """
-    I have attached the visual document for a university course file.
-    Your task is to visually scan the file and identify missing elements.
+    You will receive a parsed markdown/plain-text rendition of a university course file.
+    Your task is to identify missing elements from this parsed content.
 
-    Visually inspect the document for:
+    Inspect the parsed content for:
     1. "missing_sections": Identify if any standard structural sections appear to be completely missing compared to a normal academic syllabus.
     2. "missing_values": Locate sections that are present but empty, or contain placeholder text (for example: an empty bibliography section, or missing signatures at the approval area).
     """
@@ -53,8 +51,8 @@ def verifica_integritate_document(file_path: str):
     response = client.models.generate_content(
         model='gemini-3-flash-preview', # Poti folosi 'gemini-1.5-pro' pt logica mai avansata
         contents=[
-            uploaded_file, 
-            prompt
+            prompt,
+            f"Parsed document content:\n\n{document_text}",
         ],
         config=types.GenerateContentConfig(
             # Aici fortam formatul de JSON Strict bazat pe clasa de mai sus

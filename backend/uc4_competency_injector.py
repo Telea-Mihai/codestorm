@@ -1,8 +1,11 @@
 import os
-from google import genai
+
 from google.genai import types
 from pydantic import BaseModel, Field
 from docxtpl import DocxTemplate
+
+from gemini_config import get_gemini_client
+from parsers.syllabus_diff import extract_text_by_extension
 
 # ---------------------------------------------------------
 # 1. Definim Schema Pydantic pt "Planul de Învățământ"
@@ -18,14 +21,14 @@ class CursBootstrappingSchema(BaseModel):
 # 2. Extragerea Datelor din Sursa Adevărului (Planul)
 # ---------------------------------------------------------
 def extrage_date_plan(file_path: str, materie_cautata: str) -> dict:
-    client = genai.Client(api_key="AIzaSyA-MpGWCTJRmY18k7EgVZb2uQLp6-1I-io")
+    client = get_gemini_client()
 
-    print(f"1. AI citește sursa oficială: {file_path} ...")
-    uploaded_file = client.files.upload(file=file_path)
+    print(f"1. AI citește textul deja pars-at din sursa oficială: {file_path} ...")
+    plan_text = extract_text_by_extension(file_path)
 
     prompt = f"""
-    I have attached the visual document for an academic "Plan de Învățământ".
-    Your task is to visually scan the massive tables to locate the specific course/subject named '{materie_cautata}'.
+    You are given a parsed markdown/plain-text rendition of an academic "Plan de Învățământ".
+    Your task is to locate the specific course/subject named '{materie_cautata}'.
 
     Once found, trace across its row to extract the Year (An), Credits (Credite), Evaluation type, and ALL associated Competencies (Competențe).
     Output these fixed fields exactly as requested by the JSON schema.
@@ -33,7 +36,7 @@ def extrage_date_plan(file_path: str, materie_cautata: str) -> dict:
 
     response = client.models.generate_content(
         model='gemini-2.5-flash', # Aici folosim musai Pro, Planul de invatamant este foarte complex vizual!
-        contents=[uploaded_file, prompt],
+        contents=[prompt, f"Plan de Învățământ (parsed):\n\n{plan_text}"],
         config=types.GenerateContentConfig(
             response_mime_type="application/json",
             response_schema=CursBootstrappingSchema,

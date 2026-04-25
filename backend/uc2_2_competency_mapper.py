@@ -1,7 +1,10 @@
 import os
-from google import genai
+
 from google.genai import types
 from pydantic import BaseModel, Field
+
+from gemini_config import get_gemini_client
+from parsers.syllabus_diff import extract_text_by_extension
 
 # ---------------------------------------------------------
 # 1. Definim Schema folosind Pydantic V2 pt Cross-Mapping
@@ -19,14 +22,11 @@ class RaportMapping(BaseModel):
 
 
 def mapper_competente_cross_document(fisa_path: str, plan_path: str):
-    client = genai.Client(
-        api_key="AIzaSyA-MpGWCTJRmY18k7EgVZb2uQLp6-1I-io"
-    )
+    client = get_gemini_client()
 
-    print(f"Încărcăm documentele pentru analiza CROSS-DOCUMENT...")
-    # Incarcam vizual ambele fisiere (Fișa e fișierul de lucru, Planul e Sursa de Adevăr)
-    fisa_doc = client.files.upload(file=fisa_path)
-    plan_doc = client.files.upload(file=plan_path)
+    print(f"Încărcăm textele deja parse-ate pentru analiza CROSS-DOCUMENT...")
+    fisa_text = extract_text_by_extension(fisa_path)
+    plan_text = extract_text_by_extension(plan_path)
 
     # ---------------------------------------------------------
     # 2. Instrucțiuni de Sistem ("Sugestii / Comportament General")
@@ -41,7 +41,7 @@ def mapper_competente_cross_document(fisa_path: str, plan_path: str):
 
     # 3. Promptul Efectiv (User Input)
     prompt = """
-    Analizeaza ambele documente atasate.
+    Analizeaza ambele documente parse-ate primite.
 
     PASUL 1: Citeste 'Obiectivele cursului' si 'Denumirea materiei' din Documentul 1 (Fisa Disciplinei).
     PASUL 2: Identifica sectiunea cu 'Competente profesionale/transversale' din Documentul 1.
@@ -57,9 +57,9 @@ def mapper_competente_cross_document(fisa_path: str, plan_path: str):
     response = client.models.generate_content(
         model='gemini-2.5-flash', # Model rapid + precis
         contents=[
-            fisa_doc, 
-            plan_doc,
-            prompt
+            prompt,
+            f"Document 1 - Fișa Disciplinei (parsed):\n\n{fisa_text}",
+            f"Document 2 - Planul de Învățământ (parsed):\n\n{plan_text}",
         ],
         config=types.GenerateContentConfig(
             response_mime_type="application/json",
