@@ -85,7 +85,7 @@ async def imageToTextAsync(image_bytes, page_index, img_index, retries=DEFAULT_I
 	await rate_limiter.acquire()
 
 	try:
-		client = genai.Client(api_key='AIzaSyB4KN_NUy4x6X45h1FtQ7GQyEQEbSc4HUg')
+		client = genai.Client()
 		model_index = 0
 
 		for attempt in range(retries):

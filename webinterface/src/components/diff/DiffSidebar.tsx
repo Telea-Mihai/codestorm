@@ -8,10 +8,10 @@ type Props = {
 
 export default function DiffSidebar({ changes }: Props) {
   return (
-    <div className="w-[260px] shrink-0 flex flex-col rounded-xl border border-slate-200 bg-white text-slate-900 overflow-hidden">
+    <div className="w-[260px] shrink-0 flex flex-col rounded-xl border border-slate-200 bg-black text-white overflow-hidden">
       <div className="px-4 py-3 border-b border-slate-200">
         <p className="text-[13px] font-medium">Change Summary</p>
-        <p className="text-[12px] text-slate-500">
+        <p className="text-[12px] text-white">
           {changes.length} differences detected
         </p>
       </div>
@@ -25,8 +25,8 @@ export default function DiffSidebar({ changes }: Props) {
             }`} />
 
             <div className="min-w-0">
-              <p className="text-[12px] text-slate-900">{c.label}</p>
-              <p className="text-[11px] text-slate-500">{c.detail}</p>
+              <p className="text-[12px] text-white">{c.label}</p>
+              <p className="text-[11px] text-white/70">{c.detail}</p>
             </div>
           </div>
         ))}

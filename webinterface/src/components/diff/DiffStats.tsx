@@ -27,19 +27,19 @@ function Stat({
 }) {
   const toneClasses = {
     green: {
-      container: "bg-emerald-50 border-emerald-200",
-      label: "text-emerald-700",
-      value: "text-emerald-800",
+      container: "bg-emerald-700 border-emerald-600",
+      label: "text-emerald-500",
+      value: "text-emerald-400",
     },
     amber: {
-      container: "bg-amber-50 border-amber-200",
-      label: "text-amber-700",
-      value: "text-amber-800",
+      container: "bg-amber-700 border-amber-600",
+      label: "text-amber-500",
+      value: "text-amber-400",
     },
     red: {
-      container: "bg-rose-50 border-rose-200",
-      label: "text-rose-700",
-      value: "text-rose-800",
+      container: "bg-red-700 border-red-500",
+      label: "text-rose-200",
+      value: "text-rose-300",
     },
   }[tone];
 

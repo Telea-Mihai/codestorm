@@ -456,7 +456,6 @@ function unwrapEnvelope(value: unknown): {
       meta: {
         success: typeof v.success === "boolean" ? v.success : undefined,
         error: typeof v.error === "string" ? v.error : undefined,
-        task: typeof v.task === "string" ? v.task : undefined,
         input: "input" in v ? v.input : undefined,
       },
     };
@@ -466,7 +465,6 @@ function unwrapEnvelope(value: unknown): {
     meta: {
       success: typeof v.success === "boolean" ? v.success : undefined,
       error: typeof v.error === "string" ? v.error : undefined,
-      task: typeof v.task === "string" ? v.task : undefined,
     },
   };
 }

@@ -47,8 +47,6 @@ class RateLimiter:
         """Release a slot"""
         self.semaphore.release()
 
-# Global rate limiter instance
-rate_limiter = RateLimiter()
 
 
 def _get_retry_after_seconds(error_message):
@@ -77,12 +75,12 @@ async def parseMarkdownAsync(path):
     markdown = await loop.run_in_executor(None, _parse_markdown)
     return markdown
 
-async def imageToTextAsync(image_bytes, page_index, img_index, retries=DEFAULT_IMAGE_RETRIES):
+async def imageToTextAsync(image_bytes, page_index, img_index, rate_limiter, retries=DEFAULT_IMAGE_RETRIES):
     """Async version of imageToText with exponential backoff for rate limits"""
     await rate_limiter.acquire()
     
     try:
-        client = genai.Client(api_key='AIzaSyB4KN_NUy4x6X45h1FtQ7GQyEQEbSc4HUg')
+        client = genai.Client()
         model_index = 0
 
         for attempt in range(retries):
@@ -95,7 +93,7 @@ async def imageToTextAsync(image_bytes, page_index, img_index, retries=DEFAULT_I
                             data=image_bytes,
                             mime_type='image/jpeg',
                         ),
-                        'Caption this image. In the case of text, return the text content in markdown format. If the image contains a table, extract the table data and return it in markdown format.'
+                        'Caption this image. In the case of text, return the text content in markdown format. If the image contains a table, extract the table data and return it in markdown format. In case of text, DO NOT CHANGE THE CONTENT OR FORMAT, just return the text as is. If the image contains a table, return the table in markdown format, preserving the structure and content as accurately as possible. If the image is not clear enough to extract meaningful information, return a message indicating that the content could not be extracted.'
                     ]
                 )
                 return {
@@ -151,7 +149,7 @@ async def imageToTextAsync(image_bytes, page_index, img_index, retries=DEFAULT_I
     finally:
         rate_limiter.release()
 
-async def extractImagesAsync(path):
+async def extractImagesAsync(path, rate_limiter):
     """Extract all images from PDF and create processing tasks"""
     file = fitz.open(path)
     tasks = []
@@ -167,7 +165,7 @@ async def extractImagesAsync(path):
                 image_bytes = base_image["image"]
                 
                 # Create async task for this image
-                task = imageToTextAsync(image_bytes, page_index, img_index)
+                task = imageToTextAsync(image_bytes, page_index, img_index, rate_limiter )
                 tasks.append(task)
             except Exception as e:
                 print(f"Error extracting image {img_index} on page {page_index}: {str(e)}")
@@ -240,10 +238,10 @@ async def parsePDFAsync(path, output_dir=None):
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     
     print("Starting concurrent markdown parsing and image extraction...")
-    
+    rate_limiter = RateLimiter()
     # Run markdown parsing and image extraction concurrently
     markdown_task = parseMarkdownAsync(path)
-    image_tasks, pdf_file = await extractImagesAsync(path)
+    image_tasks, pdf_file = await extractImagesAsync(path, rate_limiter)
     
     # Wait for markdown to finish
     markdown = await markdown_task

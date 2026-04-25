@@ -1,9 +1,11 @@
 import os
+import json
 import hashlib
 import mimetypes
 import re
 from datetime import datetime
 from pathlib import Path
+from unittest import result
 
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
@@ -698,6 +700,26 @@ def uc3_content_auditor_route():
         }
     )
 
+@app.route('/downloads', methods=['GET'])
+def download_file():
+    path = request.args.get('path')
+
+    if not path:
+        return jsonify({'success': False, 'error': 'Missing path'}), 400
+
+    # Security: only allow files from DATA_DIR
+    abs_path = os.path.abspath(path)
+    if not abs_path.startswith(os.path.abspath(DATA_DIR)):
+        return jsonify({'success': False, 'error': 'Invalid path'}), 403
+
+    if not os.path.exists(abs_path):
+        return jsonify({'success': False, 'error': 'File not found'}), 404
+
+    return send_file(
+        abs_path,
+        as_attachment=True,
+        download_name=os.path.basename(abs_path)
+    )
 
 @app.route('/uc3/smart-updater', methods=['POST'])
 def uc3_smart_updater_route():
@@ -717,6 +739,7 @@ def uc3_smart_updater_route():
                 {
                     'name': os.path.basename(source_path),
                     'content': text,
+                    'original_extension': os.path.splitext(source_path)[1].lower(),
                 }
             )
 
@@ -726,6 +749,13 @@ def uc3_smart_updater_route():
             apply_changes=apply_changes,
             output_dir=DATA_DIR,
         )
+        files_with_urls = []
+        for path in result.get("generated_files", []):
+            files_with_urls.append({
+            "name": os.path.basename(path),
+            "url": f"/downloads?path={path}"
+            })
+        result["download_files"] = files_with_urls
     except ValueError as exc:
         return jsonify({'success': False, 'error': str(exc)}), 400
     except UC3Error as exc:
@@ -768,13 +798,26 @@ def uc3_academic_copilot_route():
 
 @app.route('/uc3/auto-correct-validator', methods=['POST'])
 def uc3_auto_correct_validator_route():
-    payload = request.get_json(silent=True) or {}
-    items = payload.get('evaluation_items', [])
+    plan = request.files.get('plan')
+    plan_path = None
+    
+    if request.is_json:
+        payload = request.get_json(silent=True) or {}
+        items = payload.get('evaluation_items', [])
+    else:
+        items_raw = request.form.get('evaluation_items', '[]')
+        try:
+            items = json.loads(items_raw)
+        except json.JSONDecodeError:
+            return jsonify({'success': False, 'error': 'evaluation_items must be a valid JSON array.'}), 400
 
     try:
+        if plan:
+            plan_path = _save_uploaded_file(plan)
+
         if not isinstance(items, list):
             raise UC3Error('evaluation_items must be an array.')
-        result = run_auto_correct_validator(items)
+        result = run_auto_correct_validator(items, plan_path)
     except UC3Error as exc:
         return jsonify({'success': False, 'error': str(exc)}), 422
     except Exception as exc:

@@ -114,7 +114,24 @@ export default function BatchReplacePage() {
             </Button>
           </div>
           {error ? <p className="text-sm text-destructive">{error}</p> : null}
-          {result ? <StructuredResultView value={result} title="Server result" /> : null}
+          {result && (result as any).result?.download_files?.length > 0 ? (
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium">Download updated files</h3>
+              <ul className="space-y-1">
+                {(result as any).result.download_files.map((f: any, i: number) => (
+                  <li key={i}>
+                    <a
+                      href={`http://localhost:5000${f.url}`}
+                      download={f.name}
+                      className="text-blue-600 underline text-sm"
+                    >
+                      {f.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </CardContent>
       </Card>
     </div>

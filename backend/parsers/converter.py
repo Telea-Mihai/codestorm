@@ -195,3 +195,19 @@ def markdown_to_docx(markdown_path, output_dir):
         return output_path
     except Exception as exc:
         raise ConversionError(f'Markdown to DOCX conversion failed: {exc}') from exc
+    
+def markdown_to_pdf(markdown_path, output_dir):
+    """
+    Convert Markdown to PDF by first converting to DOCX and then to PDF.
+
+    This leverages the existing conversion functions for a simple implementation.
+    """
+    try:
+        intermediate_docx = markdown_to_docx(markdown_path, output_dir)
+        final_pdf = convert_docx_to_pdf(intermediate_docx, output_dir)
+        os.remove(intermediate_docx)  # Clean up intermediate file
+        return final_pdf
+    except ConversionError:
+        raise
+    except Exception as exc:
+        raise ConversionError(f'Markdown to PDF conversion failed: {exc}') from exc

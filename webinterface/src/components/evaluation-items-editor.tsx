@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export type EvaluationRow = { label: string; weight: number };
+export type EvaluationRow = { label: string; weight: number | "" };
 
 type Props = {
   rows: EvaluationRow[];
@@ -17,7 +17,7 @@ export function evaluationRowsToPayload(rows: EvaluationRow[]): { label: string;
   return rows
     .map((r) => ({
       label: r.label.trim(),
-      weight: Number.isFinite(r.weight) ? r.weight : 0,
+      weight: typeof r.weight === "number" && Number.isFinite(r.weight) ? r.weight : 0,
     }))
     .filter((r) => r.label.length > 0);
 }
@@ -28,18 +28,18 @@ export function EvaluationItemsEditor({ rows, onChange }: Props) {
   };
 
   const addRow = () => {
-    onChange([...rows, { label: "", weight: 0 }]);
+    onChange([...rows, { label: "", weight: "" }]);
   };
 
   const removeRow = (index: number) => {
     if (rows.length <= 1) {
-      onChange([{ label: "", weight: 0 }]);
+      onChange([{ label: "", weight: "" }]);
       return;
     }
     onChange(rows.filter((_, i) => i !== index));
   };
 
-  const running = rows.reduce((acc, r) => acc + (Number.isFinite(r.weight) ? r.weight : 0), 0);
+  const running = rows.reduce((acc, r) => acc + (typeof r.weight === "number" && Number.isFinite(r.weight) ? r.weight : 0), 0);
 
   return (
     <div className="space-y-3">
@@ -83,8 +83,8 @@ export function EvaluationItemsEditor({ rows, onChange }: Props) {
                 min={0}
                 max={100}
                 step={1}
-                value={Number.isFinite(row.weight) ? row.weight : ""}
-                onChange={(e) => update(i, { weight: Number(e.target.value) || 0 })}
+                value={row.weight}
+                onChange={(e) => update(i, { weight: e.target.value === "" ? "" : Number(e.target.value) })}
               />
             </div>
             <div className="flex justify-end sm:pb-0.5">
