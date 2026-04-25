@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FileText, Loader2, Plus, RefreshCw, Trash2 } from "lucide-react";
+import { FileText, Loader2, Trash2 } from "lucide-react";
 
 import { deleteJson, getJson, postFormData } from "@/lib/backend";
 import { deleteUpload, listUploads, type UploadRecord } from "@/lib/idb";
@@ -150,28 +150,6 @@ export default function DashboardPage() {
 
   return (
     <div className="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col gap-5">
-      <div className="flex flex-wrap items-start justify-between gap-3 rounded-3xl border border-zinc-800 bg-zinc-950/70 px-5 py-5">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-zinc-50">Document Library</h1>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            className="border-zinc-700 bg-zinc-900 text-zinc-200 hover:bg-zinc-800"
-            onClick={() => void refresh()}
-            disabled={refreshing}
-          >
-            <RefreshCw className={`size-4 ${refreshing ? "animate-spin" : ""}`} aria-hidden />
-            Refresh
-          </Button>
-          <Button type="button" onClick={() => setUploadOpen(true)}>
-            <Plus className="size-4" aria-hidden />
-            Upload
-          </Button>
-        </div>
-      </div>
-
       <div className="min-h-0 flex-1 overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-950/70">
         <div className="h-full overflow-auto">
           <table className="w-full min-w-[880px] table-fixed text-left text-sm">

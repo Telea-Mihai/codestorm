@@ -94,7 +94,7 @@ function IntegrityAiPageContent() {
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Integrity checks (Gemini)</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          UC 1.1 and UC 1.2 call the Google GenAI API. Set{" "}
+          Set{" "}
           <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GEMINI_API_KEY</code>{" "}
           in <span className="font-mono text-foreground">backend/.env</span> before running. Open from{" "}
           <a className="text-primary underline-offset-2 hover:underline" href="/dashboard">

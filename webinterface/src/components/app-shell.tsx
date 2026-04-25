@@ -1,132 +1,129 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
-  ChevronRight,
-  GitCompare,
-  Home,
+  Bell,
+  ChartColumnBig,
+  CircleUserRound,
+  CreditCard,
+  FolderGit2,
+  FolderKanban,
+  Settings,
   LayoutDashboard,
-  Layers,
-  LayoutTemplate,
-  PencilLine,
-  RefreshCw,
-  Scale,
-  SearchCheck,
+  Plus,
   ShieldCheck,
-  Upload,
-  Wand2,
+  SquareKanban,
+  Weight,
+  ArrowRightLeft,
+  BookOpen,
+
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
+import Header from "@/components/common/header";
 
-const coreNav = [
-  { href: "/dashboard", label: "Document library", icon: LayoutDashboard },
-  { href: "/upload", label: "Quick upload", icon: Upload },
-  { href: "/", label: "Home", icon: Home },
+const primaryNav = [
+  { href: "/dashboard", label: "Document Library", icon: CircleUserRound },
+  { href: "/templates", label: "Word Templates", icon: LayoutDashboard },
+  { href: "/convert", label: "Format Converter", icon: ChartColumnBig },
+  { href: "/diff", label: "Syllabus Comparison", icon: FolderGit2 },
+  { href: "/integrity-ai", label: "Integrity Review", icon: FolderKanban },
+  { href: "/plan-tools", label: "Plan Alignment", icon: SquareKanban },
+  { href: "/audit", label: "Quality audit", icon: ShieldCheck },
+  { href: "/weights", label: "Grading weights", icon: Weight},
+  { href: "/batch-replace", label: "Text replacements", icon: ArrowRightLeft },
+  { href: "/plan-tools", label: "Writing assistant", icon: BookOpen },
+
 ];
 
-const toolsNav = [
-  { href: "/templates", label: "Word templates", icon: LayoutTemplate },
-  { href: "/convert", label: "Format converter", icon: RefreshCw },
-  { href: "/diff", label: "Syllabus comparison", icon: GitCompare },
-  { href: "/integrity-ai", label: "Integrity review", icon: ShieldCheck },
-  { href: "/plan-tools", label: "Plan alignment", icon: Layers },
-  { href: "/audit", label: "Quality audit", icon: SearchCheck },
-  { href: "/weights", label: "Grading weights", icon: Scale },
-  { href: "/batch-replace", label: "Text replacements", icon: Wand2 },
-  { href: "/rewrite", label: "Writing assistant", icon: PencilLine },
+const footerNav = [
+  { href: "/templates", label: "Settings", icon: Settings },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const isDashboard = pathname === "/dashboard" || pathname === "/";
 
   return (
     <div className="min-h-screen bg-zinc-950 px-3 py-3 text-zinc-100 md:px-4 md:py-4">
       <div className="mx-auto flex min-h-[calc(100vh-1.5rem)] w-full max-w-[1500px] gap-3">
-        <aside className="flex w-64 shrink-0 flex-col rounded-3xl border border-zinc-800 bg-zinc-900/95">
-          <div className="px-5 py-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">
-              CodeStorm
-            </p>
-            <p className="mt-2 text-base font-semibold text-zinc-100">
-              Teacher Workspace
-            </p>
-            <p className="mt-2 text-xs leading-relaxed text-zinc-400">
-              Organize course documents, review updates, and run teaching-focused checks from one place.
-            </p>
+        <aside className="flex w-72 shrink-0 flex-col rounded-[28px] border border-zinc-800 bg-zinc-900/95 p-2">
+          <div className="px-3 py-3">
+            <Link href="/dashboard" className="flex items-center gap-2 rounded-xl px-2 py-1.5 hover:bg-zinc-800/60">
+              <div className="flex size-8 items-center justify-center rounded-full bg-zinc-100 text-zinc-900">
+                <span className="text-xs font-bold">CS</span>
+              </div>
+              <span className="text-base font-semibold text-white">Nume</span>
+            </Link>
           </div>
-          <Separator className="bg-zinc-800" />
 
-          <div className="p-3">
-            <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500">
-              Core flow
-            </p>
+          <div className="mt-1 flex min-h-0 flex-1 flex-col gap-2 px-2">
             <nav className="flex flex-col gap-1">
-              {coreNav.map(({ href, label, icon: Icon }) => {
-                const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
+              {primaryNav.map(({ href, label, icon: Icon }) => {
+                const active = pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
                 return (
                   <Link
-                    key={href}
+                    key={`${href}-${label}`}
                     href={href}
                     className={cn(
-                      "group flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
-                      active
-                        ? "bg-zinc-100 text-zinc-900"
-                        : "text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100"
+                      "flex items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors",
+                      active ? "bg-white/10 text-white" : "text-white/60 hover:text-white"
                     )}
                   >
-                    <Icon className="size-4 shrink-0" aria-hidden />
-                    <span className="flex-1">{label}</span>
-                    <ChevronRight
-                      className={cn(
-                        "size-3.5 opacity-0 transition-opacity group-hover:opacity-70",
-                        active && "opacity-80"
-                      )}
-                      aria-hidden
-                    />
+                    <Icon className="h-5 w-5 text-white/60" aria-hidden />
+                    <span className="text-white">{label}</span>
                   </Link>
                 );
               })}
             </nav>
-          </div>
 
-          <Separator className="bg-zinc-800" />
-          <div className="min-h-0 flex-1 overflow-y-auto p-3">
-            <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500">
-              Tool pages
-            </p>
-            <nav className="flex flex-col gap-0.5">
-              {toolsNav.map(({ href, label, icon: Icon }) => {
-                const active = pathname.startsWith(href);
-                return (
-                  <Link
-                    key={href}
-                    href={href}
-                    className={cn(
-                      "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                      active
-                        ? "bg-zinc-100 text-zinc-900"
-                        : "text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100"
-                    )}
-                  >
-                    <Icon className="size-4 shrink-0" aria-hidden />
-                    {label}
+            <div className="flex-1" />
+
+            <div className="space-y-3 p-1">
+              <nav className="space-y-1">
+                {footerNav.map(({ href, label, icon: Icon }) => (
+                  <Link key={href} href={href} className="flex items-center gap-2 rounded-md px-2 py-2 text-sm text-white/70 hover:bg-zinc-800 hover:text-white">
+                    <Icon className="h-[18px] w-[18px] text-white/60" aria-hidden />
+                    <span className="text-white">{label}</span>
                   </Link>
-                );
-              })}
-            </nav>
+                ))}
+              </nav>
+            </div>
           </div>
 
-          <div className="p-3 pt-0">
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-950/80 px-3 py-2.5 text-xs text-zinc-400">
-              Local library enabled: your saved files stay ready in this browser across tool pages.
+          <div className="mt-2 rounded-2xl border border-zinc-800 bg-zinc-950/70 px-3 py-2.5 text-white">
+            <p className="text-sm font-semibold leading-none">ioana</p>
+            <p className="mt-1 text-xs text-zinc-400">ioana@email.com</p>
+            <div className="mt-2 flex items-center gap-2 text-xs text-zinc-300">
+              <Bell className="size-3.5" aria-hidden />
+              Active workspace
             </div>
           </div>
         </aside>
 
         <div className="flex min-h-full flex-1 flex-col rounded-3xl border border-zinc-800 bg-zinc-900/95">
+          {isDashboard ? (
+            <div className="border-b border-zinc-800 px-5 py-5 md:px-8 md:py-6">
+              <Header
+                title="Dashboard"
+                buttonText="Upload"
+                buttonIcon={<Plus size={20} />}
+                buttonOnClick={() => router.push("/upload")}
+                summary={
+                  <div className="text-muted-foreground flex gap-1 overflow-hidden text-base font-semibold text-ellipsis whitespace-nowrap">
+                    Overview dashboard ready for{" "}
+                    <span className="text-foreground flex items-center gap-1">
+                      <CreditCard size={20} />
+                      new modules
+                    </span>
+                  </div>
+                }
+              />
+            </div>
+          ) : null}
           <main className="flex-1 overflow-y-auto p-5 md:p-8">{children}</main>
         </div>
       </div>
