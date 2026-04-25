@@ -1,4 +1,5 @@
 import os
+import json
 import hashlib
 import mimetypes
 import re
@@ -768,13 +769,26 @@ def uc3_academic_copilot_route():
 
 @app.route('/uc3/auto-correct-validator', methods=['POST'])
 def uc3_auto_correct_validator_route():
-    payload = request.get_json(silent=True) or {}
-    items = payload.get('evaluation_items', [])
+    plan = request.files.get('plan')
+    plan_path = None
+    
+    if request.is_json:
+        payload = request.get_json(silent=True) or {}
+        items = payload.get('evaluation_items', [])
+    else:
+        items_raw = request.form.get('evaluation_items', '[]')
+        try:
+            items = json.loads(items_raw)
+        except json.JSONDecodeError:
+            return jsonify({'success': False, 'error': 'evaluation_items must be a valid JSON array.'}), 400
 
     try:
+        if plan:
+            plan_path = _save_uploaded_file(plan)
+
         if not isinstance(items, list):
             raise UC3Error('evaluation_items must be an array.')
-        result = run_auto_correct_validator(items)
+        result = run_auto_correct_validator(items, plan_path)
     except UC3Error as exc:
         return jsonify({'success': False, 'error': str(exc)}), 422
     except Exception as exc:

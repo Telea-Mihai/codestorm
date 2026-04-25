@@ -8,7 +8,8 @@ import {
   type EvaluationRow,
 } from "@/components/evaluation-items-editor";
 import { StructuredResultView } from "@/components/structured-result-view";
-import { postJson } from "@/lib/backend";
+import { postFormData } from "@/lib/backend";
+import { SavedFilePicker } from "@/components/saved-file-picker";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -41,6 +42,7 @@ export default function WeightsPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [payload, setPayload] = useState<ValidatorEnvelope | null>(null);
+  const [planFile, setPlanFile] = useState<File | null>(null);
 
   const handleValidateGradingTable = async () => {
     const items = evaluationRowsToPayload(rows);
@@ -48,13 +50,19 @@ export default function WeightsPage() {
       setError("Add at least one component with a label.");
       return;
     }
+    if (!planFile) {
+      setError("Please select a Curriculum Plan document.");
+      return;
+    }
     setLoading(true);
     setError(null);
     setPayload(null);
     try {
-      const res = await postJson<ValidatorEnvelope>("/uc3/auto-correct-validator", {
-        evaluation_items: items,
-      });
+      const fd = new FormData();
+      fd.append("plan", planFile);
+      fd.append("evaluation_items", JSON.stringify(items));
+
+      const res = await postFormData<ValidatorEnvelope>("/uc3/auto-correct-validator", fd);
       setPayload(res);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Validation failed.");
@@ -81,6 +89,16 @@ export default function WeightsPage() {
           <CardDescription>Adjust labels and weights to mirror your syllabus table.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          <SavedFilePicker
+            label="Curriculum Plan Document (.pdf, .docx)"
+            inputId="plan-upload"
+            accept=".pdf,.docx"
+            file={planFile}
+            onChange={(file) => {
+              setPlanFile(file);
+              setError(null);
+            }}
+          />
           <EvaluationItemsEditor rows={rows} onChange={setRows} />
           <Button type="button" onClick={handleValidateGradingTable} disabled={loading}>
             {loading ? "Checking…" : "Validate weights and show suggested split"}

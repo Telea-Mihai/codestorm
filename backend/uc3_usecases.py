@@ -6,6 +6,10 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
+from google import genai
+from google.genai import types
+from pydantic import BaseModel, Field
+
 
 class UC3Error(Exception):
     """Raised when UC3 request input is invalid or cannot be processed."""
@@ -261,13 +265,47 @@ def _parse_evaluation_items(items: list[dict[str, Any]]) -> list[dict[str, Any]]
     return parsed
 
 
-def run_auto_correct_validator(items: list[dict[str, Any]]) -> dict[str, Any]:
+class ReguliNotare(BaseModel):
+    procent_maxim_examen: float = Field(description="Procentul maxim permis pentru examenul final, ca numar zecimal (ex: 60 pentru 60%).")
+
+def extract_grading_rules(plan_path: str) -> float:
+    try:
+        client = genai.Client(
+            api_key=os.environ.get("GEMINI_API_KEY", "AIzaSyAxAAhnnaNl0WAz1wORFvCD-YSvH0lYeGU")
+        )
+        plan_doc = client.files.upload(file=plan_path)
+        prompt = """
+        Citește acest Plan de Învățământ și caută regulile de notare/evaluare.
+        Extrage procentul maxim admis pentru 'Examen final' sau evaluarea principală (ex: ponderea maximă pentru examenul final).
+        Dacă nu găsești nicio valoare specificată în mod explicit în tot documentul, returnează valoarea implicită: 60.
+        """
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=[plan_doc, prompt],
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                response_schema=ReguliNotare,
+                temperature=0.0
+            ),
+        )
+        DateExtrase = ReguliNotare.model_validate_json(response.text)
+        return float(DateExtrase.procent_maxim_examen)
+    except Exception as e:
+        print(f"Failed to extract rules from plan: {e}")
+        return 60.0
+
+
+def run_auto_correct_validator(items: list[dict[str, Any]], plan_path: str = None) -> dict[str, Any]:
     if not items:
         raise UC3Error("At least one evaluation item is required.")
 
     parsed = _parse_evaluation_items(items)
     total = round(sum(row["weight"] for row in parsed), 2)
     violations = []
+
+    max_exam_weight = 60.0
+    if plan_path and os.path.exists(plan_path):
+        max_exam_weight = extract_grading_rules(plan_path)
 
     final_exam_indices = [
         index
@@ -276,11 +314,11 @@ def run_auto_correct_validator(items: list[dict[str, Any]]) -> dict[str, Any]:
     ]
 
     for idx in final_exam_indices:
-        if parsed[idx]["weight"] > 60:
+        if parsed[idx]["weight"] > max_exam_weight:
             violations.append(
                 {
-                    "rule": "final_exam_max_60",
-                    "message": f"Final exam weight is {parsed[idx]['weight']}%, above 60%.",
+                    "rule": "final_exam_max_weight",
+                    "message": f"Final exam weight is {parsed[idx]['weight']}%, above allowed limit of {max_exam_weight}%.",
                 }
             )
 
@@ -295,9 +333,9 @@ def run_auto_correct_validator(items: list[dict[str, Any]]) -> dict[str, Any]:
     corrected = [dict(row) for row in parsed]
 
     for idx in final_exam_indices:
-        if corrected[idx]["weight"] > 60:
-            excess = corrected[idx]["weight"] - 60
-            corrected[idx]["weight"] = 60.0
+        if corrected[idx]["weight"] > max_exam_weight:
+            excess = corrected[idx]["weight"] - max_exam_weight
+            corrected[idx]["weight"] = float(max_exam_weight)
 
             receiver_indices = [
                 i
