@@ -2,6 +2,10 @@
 
 import { Suspense, useMemo, useState } from "react";
 
+import DiffEditorView from "@/components/diff/DiffEditorView";
+import DiffHeader from "@/components/diff/DiffHeader";
+import DiffSidebar from "@/components/diff/DiffSidebar";
+import DiffStats from "@/components/diff/DiffStats";
 import { OperationCacheBanner } from "@/components/operation-cache-banner";
 import { SavedFilePicker } from "@/components/saved-file-picker";
 import { useTwoLibraryFilesFromUrl } from "@/hooks/use-library-file-from-url";
@@ -43,35 +47,17 @@ type DiffResponse = {
   hunks: DiffHunk[];
 };
 
-function lineStyle(line: HunkLine): string {
-  if (line.type === "added") {
-    return "bg-emerald-500/10";
-  }
-  if (line.type === "removed") {
-    return "bg-rose-500/10";
-  }
-  return "bg-zinc-950/10";
-}
-
-function linePrefix(line: HunkLine): string {
-  if (line.type === "added") {
-    return "+";
-  }
-  if (line.type === "removed") {
-    return "-";
-  }
-  return " ";
-}
-
-function numberCell(value: number | null) {
-  return value == null ? "" : String(value);
-}
+type ChangeItem = {
+  type: "added" | "removed" | "modified";
+  label: string;
+  detail: string;
+};
 
 function DiffPageContent() {
   const [oldFile, setOldFile] = useState<File | null>(null);
   const [newFile, setNewFile] = useState<File | null>(null);
   const [includeContext, setIncludeContext] = useState(true);
-  const [layout, setLayout] = useState<"inline" | "split">("inline");
+  const [mode, setMode] = useState<"side-by-side" | "inline">("side-by-side");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -102,6 +88,49 @@ function DiffPageContent() {
       .filter((hunk) => hunk.lines.length > 0);
   }, [visibleResult, includeContext]);
 
+  const changes = useMemo<ChangeItem[]>(() => {
+    const next: ChangeItem[] = [];
+    for (const hunk of filteredHunks) {
+      const hasAdded = hunk.lines.some((line) => line.type === "added");
+      const hasRemoved = hunk.lines.some((line) => line.type === "removed");
+      const type: ChangeItem["type"] = hasAdded && hasRemoved ? "modified" : hasAdded ? "added" : "removed";
+      next.push({
+        type,
+        label: hunk.header,
+        detail: `${hunk.lines.length} lines in this block`,
+      });
+    }
+    return next;
+  }, [filteredHunks]);
+
+  const editorText = useMemo(() => {
+    if (filteredHunks.length === 0) {
+      return {
+        original: "",
+        modified: "",
+      };
+    }
+
+    const originalLines: string[] = [];
+    const modifiedLines: string[] = [];
+
+    for (const hunk of filteredHunks) {
+      for (const line of hunk.lines) {
+        if (line.type !== "added") {
+          originalLines.push(line.text);
+        }
+        if (line.type !== "removed") {
+          modifiedLines.push(line.text);
+        }
+      }
+    }
+
+    return {
+      original: originalLines.join("\n"),
+      modified: modifiedLines.join("\n"),
+    };
+  }, [filteredHunks]);
+
   const runDiff = async () => {
     if (!oldFile || !newFile) {
       setError("Select both the previous and new document.");
@@ -129,13 +158,8 @@ function DiffPageContent() {
   };
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Syllabus diff</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Unified hunk comparison with line numbers and contextual blocks, styled like modern code review tools.
-        </p>
-      </div>
+    <div className="flex h-full min-h-[calc(100vh-9rem)] flex-col gap-5 overflow-hidden">
+      <DiffHeader renderSide={mode} onChange={setMode} />
 
       <Card>
         <CardHeader>
@@ -177,22 +201,6 @@ function DiffPageContent() {
               />
               Show context lines
             </label>
-            <Button
-              type="button"
-              size="sm"
-              variant={layout === "inline" ? "default" : "outline"}
-              onClick={() => setLayout("inline")}
-            >
-              Inline
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              variant={layout === "split" ? "default" : "outline"}
-              onClick={() => setLayout("split")}
-            >
-              Split
-            </Button>
           </div>
 
           <Button type="button" onClick={() => void runDiff()} disabled={loading}>
@@ -202,85 +210,21 @@ function DiffPageContent() {
         </CardContent>
       </Card>
 
+      {visibleResult?.success ? <DiffStats changes={changes} /> : null}
+
       {visibleResult?.success ? (
+        <div className="flex min-h-0 flex-1 gap-4">
+          <DiffEditorView original={editorText.original} modified={editorText.modified} mode={mode} />
+          <DiffSidebar changes={changes} />
+        </div>
+      ) : (
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Summary</CardTitle>
-            <CardDescription>
-              {visibleResult.summary.added} additions, {visibleResult.summary.removed} removals, {visibleResult.summary.modified} modifications
-            </CardDescription>
+            <CardTitle className="text-base">Run Comparison</CardTitle>
+            <CardDescription>Pick two files and click Compare versions to load the diff view.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            {filteredHunks.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No hunks to display for current options.</p>
-            ) : (
-              <div className="space-y-4">
-                {filteredHunks.map((hunk, hunkIndex) => (
-                  <div key={`${hunk.header}-${hunkIndex}`} className="overflow-hidden rounded-xl border border-border">
-                    <div className="border-b border-border bg-muted/40 px-3 py-2 font-mono text-xs text-muted-foreground">
-                      {hunk.header}
-                    </div>
-
-                    {layout === "inline" ? (
-                      <table className="w-full text-left font-mono text-xs">
-                        <tbody>
-                          {hunk.lines.map((line, idx) => (
-                            <tr key={`${hunkIndex}-${idx}`} className={`${lineStyle(line)} align-top`}>
-                              <td className="w-14 border-r border-border px-2 py-1 text-right text-muted-foreground">
-                                {numberCell(line.old_line)}
-                              </td>
-                              <td className="w-14 border-r border-border px-2 py-1 text-right text-muted-foreground">
-                                {numberCell(line.new_line)}
-                              </td>
-                              <td className="w-5 border-r border-border px-1 py-1 text-muted-foreground">{linePrefix(line)}</td>
-                              <td className="whitespace-pre-wrap px-2 py-1 text-foreground">{line.text}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    ) : (
-                      <table className="w-full table-fixed text-left font-mono text-xs">
-                        <thead className="border-b border-border bg-muted/30 text-muted-foreground">
-                          <tr>
-                            <th className="px-2 py-1 font-medium">Old</th>
-                            <th className="px-2 py-1 font-medium">New</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {hunk.lines.map((line, idx) => (
-                            <tr key={`${hunkIndex}-${idx}`} className="align-top">
-                              <td
-                                className={`w-1/2 border-r border-border px-2 py-1 ${
-                                  line.type === "added" ? "bg-zinc-950/30" : lineStyle(line)
-                                }`}
-                              >
-                                <span className="mr-2 inline-block min-w-8 text-right text-muted-foreground">
-                                  {numberCell(line.old_line)}
-                                </span>
-                                {line.type !== "added" ? line.text : ""}
-                              </td>
-                              <td
-                                className={`w-1/2 px-2 py-1 ${
-                                  line.type === "removed" ? "bg-zinc-950/30" : lineStyle(line)
-                                }`}
-                              >
-                                <span className="mr-2 inline-block min-w-8 text-right text-muted-foreground">
-                                  {numberCell(line.new_line)}
-                                </span>
-                                {line.type !== "removed" ? line.text : ""}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
         </Card>
-      ) : null}
+      )}
     </div>
   );
 }
