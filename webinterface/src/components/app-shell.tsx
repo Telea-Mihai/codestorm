@@ -22,7 +22,6 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-import Header from "@/components/common/header";
 
 const primaryNav = [
   { href: "/dashboard", label: "Document Library", icon: CircleUserRound },
@@ -105,25 +104,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </aside>
 
         <div className="flex min-h-full flex-1 flex-col rounded-3xl border border-zinc-800 bg-zinc-900/95">
-          {isDashboard ? (
-            <div className="border-b border-zinc-800 px-5 py-5 md:px-8 md:py-6">
-              <Header
-                title="Dashboard"
-                buttonText="Upload"
-                buttonIcon={<Plus size={20} />}
-                buttonOnClick={() => router.push("/upload")}
-                summary={
-                  <div className="text-muted-foreground flex gap-1 overflow-hidden text-base font-semibold text-ellipsis whitespace-nowrap">
-                    Overview dashboard ready for{" "}
-                    <span className="text-foreground flex items-center gap-1">
-                      <CreditCard size={20} />
-                      new modules
-                    </span>
-                  </div>
-                }
-              />
-            </div>
-          ) : null}
           <main className="flex-1 overflow-y-auto p-5 md:p-8">{children}</main>
         </div>
       </div>
