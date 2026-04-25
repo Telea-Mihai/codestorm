@@ -49,16 +49,11 @@ function ConvertPageContent() {
   };
 
   return (
-    <div className="mx-auto max-w-xl space-y-6">
+    <div className="mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Convert PDF or Word</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Each action downloads the converted file. PDF must end in <span className="font-mono">.pdf</span>
-          ; Word must end in <span className="font-mono">.docx</span>. From{" "}
-          <a className="text-primary underline-offset-2 hover:underline" href="/dashboard">
-            Documents
-          </a>,{" "}
-          <span className="font-mono text-xs">?lib=</span> picks the correct slot from the file extension.
+          Convert files between pdf and docs files
         </p>
       </div>
 

@@ -176,16 +176,12 @@ function PlanToolsPageContent() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8">
+    <div className="mx-auto space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Plan alignment (Gemini)</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Plan alignment</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Cross-document checks between a course sheet and the official study plan, plus a Word
-          draft bootstrap from the plan. Requires{" "}
-          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">GEMINI_API_KEY</code>.
-          Use saved uploads from this browser or your disk; UC 2.x responses are cached locally per
-          file pair. From <a className="text-primary underline-offset-2 hover:underline" href="/dashboard">Documents</a>, links with{" "}
-          <span className="font-mono text-xs">?fisa=</span> or <span className="font-mono text-xs">?plan=</span> pre-fill both tools.
+          draft bootstrap from the plan. 
         </p>
       </div>
 
@@ -197,11 +193,10 @@ function PlanToolsPageContent() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">UC 2.1 — Sync master</CardTitle>
+          <CardTitle className="text-base">Sync master</CardTitle>
           <CardDescription>
-            Compare title, ECTS, and evaluation type between the course sheet (
-            <span className="font-mono text-xs">fisa</span>) and the study plan (
-            <span className="font-mono text-xs">plan</span>).
+            Compare title, ECTS, and evaluation type between the course sheet and the study plan 
+
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -237,7 +232,7 @@ function PlanToolsPageContent() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">UC 2.2 — Competency mapper</CardTitle>
+          <CardTitle className="text-base">Competency mapper</CardTitle>
           <CardDescription>
             Map CP/CT lines from the course sheet against the official study plan.
           </CardDescription>
@@ -275,12 +270,11 @@ function PlanToolsPageContent() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">UC 4 — Bootstrap Word draft</CardTitle>
+          <CardTitle className="text-base">Bootstrap Word draft</CardTitle>
           <CardDescription>
             Extract one course row from the plan PDF and render a Word template (
             form upload). Choose the server default,
-            upload a .docx, or pick a template you manage under{" "}
-            <span className="font-medium text-foreground">Word templates</span> in the sidebar.
+            upload a .docx, or pick a template
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -303,21 +297,7 @@ function PlanToolsPageContent() {
 
           <div className="space-y-2">
             <span className="text-sm font-medium text-foreground">Word template</span>
-            <div className="flex flex-col gap-2 text-sm">
-              <label className="flex cursor-pointer items-center gap-2">
-                <input
-                  type="radio"
-                  name="tpl-src"
-                  className="size-4 accent-primary"
-                  checked={templateSource === "server"}
-                  onChange={() => {
-                    setTemplateSource("server");
-                    setTemplate4(null);
-                    setSavedTemplateId("");
-                  }}
-                />
-                Server default (<span className="font-mono text-xs">template_gol.docx</span>)
-              </label>
+            <div className="flex flex gap-2 text-sm ">
               <label className="flex cursor-pointer items-center gap-2">
                 <input
                   type="radio"
