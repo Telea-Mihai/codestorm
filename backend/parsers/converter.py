@@ -162,3 +162,36 @@ def convert_docx_to_pdf(docx_path, output_dir):
         raise
     except Exception as exc:
         raise ConversionError(f'DOCX to PDF conversion failed: {exc}') from exc
+
+def markdown_to_docx(markdown_path, output_dir):
+    """
+    Convert Markdown to DOCX using a simple line-by-line approach.
+
+    This is a basic implementation that handles headings, lists, and paragraphs.
+    """
+    try:
+        from docx import Document
+    except ImportError as exc:
+        raise ConversionError('Missing dependency: python-docx.') from exc
+
+    output_path = _timestamped_output_path(markdown_path, output_dir, '.docx')
+
+    try:
+        document = Document()
+        with open(markdown_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                stripped = line.strip()
+                if not stripped:
+                    continue
+                elif stripped.startswith('#'):
+                    level = len(stripped) - len(stripped.lstrip('#'))
+                    document.add_heading(stripped.lstrip('#').strip(), level=level)
+                elif stripped.startswith(('-', '*', '+')):
+                    document.add_paragraph(stripped[1:].strip(), style='List Bullet')
+                else:
+                    document.add_paragraph(stripped)
+
+        document.save(output_path)
+        return output_path
+    except Exception as exc:
+        raise ConversionError(f'Markdown to DOCX conversion failed: {exc}') from exc

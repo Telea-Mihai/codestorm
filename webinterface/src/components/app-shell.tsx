@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
 import Header from "@/components/common/header";
 
 const primaryNav = [
@@ -34,7 +33,6 @@ const primaryNav = [
   { href: "/audit", label: "Quality audit", icon: ShieldCheck },
   { href: "/weights", label: "Grading weights", icon: Weight},
   { href: "/batch-replace", label: "Text replacements", icon: ArrowRightLeft },
-  { href: "/plan-tools", label: "Writing assistant", icon: BookOpen },
 
 ];
 

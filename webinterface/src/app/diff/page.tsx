@@ -33,18 +33,17 @@ type DiffHunk = {
   lines: HunkLine[];
 };
 
+type Row = {
+  color: "green" | "red" | "none";
+  left: string;
+  right: string;
+  status: "added" | "removed" | "modified" | "unchanged";
+};
+
 type DiffResponse = {
   success: boolean;
-  summary: {
-    old_lines: number;
-    new_lines: number;
-    added: number;
-    removed: number;
-    modified: number;
-    unchanged: number;
-    change_ratio: number;
-  };
-  hunks: DiffHunk[];
+  summary: {  };
+  rows: Row[];
 };
 
 type ChangeItem = {
@@ -73,20 +72,54 @@ function DiffPageContent() {
     : null;
   const visibleResult = result ?? cachedResult;
 
-  const filteredHunks = useMemo(() => {
-    if (!visibleResult) {
-      return [] as DiffHunk[];
+const filteredHunks = useMemo(() => {
+  if (!visibleResult?.rows) return [];
+
+  const lines: DiffHunk[] = [];
+  let currentHunk: DiffHunk | null = null;
+
+  visibleResult.rows.forEach((row, index) => {
+    const isChange = row.status !== "unchanged";
+
+    if (!currentHunk && isChange) {
+      currentHunk = {
+        old_start: index,
+        old_length: 0,
+        new_start: index,
+        new_length: 0,
+        header: `Change at line ${index + 1}`,
+        lines: [],
+      };
     }
-    if (includeContext) {
-      return visibleResult.hunks;
+
+    if (currentHunk) {
+      const type =
+        row.status === "added"
+          ? "added"
+          : row.status === "removed"
+          ? "removed"
+          : row.status === "modified"
+          ? "context" // treat modified as mixed
+          : "context";
+
+      currentHunk.lines.push({
+        type,
+        old_line: index + 1,
+        new_line: index + 1,
+        text: row.right || row.left,
+      });
+
+      if (!isChange && includeContext === false) {
+        lines.push(currentHunk);
+        currentHunk = null;
+      }
     }
-    return visibleResult.hunks
-      .map((hunk) => ({
-        ...hunk,
-        lines: hunk.lines.filter((line) => line.type !== "context"),
-      }))
-      .filter((hunk) => hunk.lines.length > 0);
-  }, [visibleResult, includeContext]);
+  });
+
+  if (currentHunk) lines.push(currentHunk);
+
+  return lines;
+}, [visibleResult, includeContext]);
 
   const changes = useMemo<ChangeItem[]>(() => {
     const next: ChangeItem[] = [];
@@ -146,6 +179,7 @@ function DiffPageContent() {
     setResult(null);
     try {
       const payload = await postFormData<DiffResponse>("/diff/syllabus", data);
+      console.log("Diff result:", payload);
       setResult(payload);
       const a = await sha256Hex(oldFile);
       const b = await sha256Hex(newFile);
@@ -213,7 +247,7 @@ function DiffPageContent() {
       {visibleResult?.success ? <DiffStats changes={changes} /> : null}
 
       {visibleResult?.success ? (
-        <div className="flex min-h-0 flex-1 gap-4">
+        <div className="flex min-h-150 flex-1 gap-4">
           <DiffEditorView original={editorText.original} modified={editorText.modified} mode={mode} />
           <DiffSidebar changes={changes} />
         </div>
