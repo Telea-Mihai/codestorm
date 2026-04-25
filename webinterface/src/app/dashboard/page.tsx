@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FileText, Trash2 } from "lucide-react";
+import { FileText, Loader2, Plus, RefreshCw, Trash2 } from "lucide-react";
 
-import { deleteJson, getJson } from "@/lib/backend";
+import { deleteJson, getJson, postFormData } from "@/lib/backend";
 import { deleteUpload, listUploads, type UploadRecord } from "@/lib/idb";
+import { saveUploadToLibrary } from "@/lib/register-upload";
 import { Button } from "@/components/ui/button";
 
 type BackendDocument = {
@@ -56,6 +57,11 @@ export default function DashboardPage() {
   const [backendDocs, setBackendDocs] = useState<Record<string, BackendDocument>>({});
   const [refreshing, setRefreshing] = useState(false);
 
+  const [uploadOpen, setUploadOpen] = useState(false);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [uploadBusy, setUploadBusy] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
   const refresh = useCallback(async () => {
     setRefreshing(true);
     try {
@@ -99,6 +105,37 @@ export default function DashboardPage() {
     [rows, backendDocs]
   );
 
+  const runUpload = async () => {
+    if (!uploadFile) {
+      setUploadError("Choose a file first.");
+      return;
+    }
+
+    setUploadBusy(true);
+    setUploadError(null);
+    try {
+      const form = new FormData();
+      form.append("file", uploadFile);
+      const response = await postFormData<{ success: boolean; filepath: string }>("/upload", form);
+      if (!response.success) {
+        throw new Error("Upload failed.");
+      }
+
+      await saveUploadToLibrary(uploadFile, {
+        displayName: uploadFile.name,
+        serverPath: response.filepath,
+      });
+
+      setUploadFile(null);
+      setUploadOpen(false);
+      await refresh();
+    } catch (error) {
+      setUploadError(error instanceof Error ? error.message : "Upload failed.");
+    } finally {
+      setUploadBusy(false);
+    }
+  };
+
   const removeEverywhere = async (hash: string) => {
     try {
       await Promise.allSettled([
@@ -113,6 +150,28 @@ export default function DashboardPage() {
 
   return (
     <div className="flex h-full min-h-[calc(100vh-6rem)] w-full flex-col gap-5">
+      <div className="flex flex-wrap items-start justify-between gap-3 rounded-3xl border border-zinc-800 bg-zinc-950/70 px-5 py-5">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight text-zinc-50">Document Library</h1>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            className="border-zinc-700 bg-zinc-900 text-zinc-200 hover:bg-zinc-800"
+            onClick={() => void refresh()}
+            disabled={refreshing}
+          >
+            <RefreshCw className={`size-4 ${refreshing ? "animate-spin" : ""}`} aria-hidden />
+            Refresh
+          </Button>
+          <Button type="button" onClick={() => setUploadOpen(true)}>
+            <Plus className="size-4" aria-hidden />
+            Upload
+          </Button>
+        </div>
+      </div>
+
       <div className="min-h-0 flex-1 overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-950/70">
         <div className="h-full overflow-auto">
           <table className="w-full min-w-[880px] table-fixed text-left text-sm">
@@ -180,6 +239,53 @@ export default function DashboardPage() {
           </table>
         </div>
       </div>
+
+      {uploadOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+          <div className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950 p-5 shadow-xl">
+            <h2 className="text-lg font-semibold text-zinc-50">Upload document</h2>
+            <p className="mt-1 text-sm text-zinc-400">
+              Add a file to the server and keep a reusable local copy in this browser.
+            </p>
+            <label htmlFor="upload-popup-file" className="mt-4 block text-sm font-medium text-zinc-300">
+              Choose file
+            </label>
+            <input
+              id="upload-popup-file"
+              type="file"
+              accept=".pdf,.docx,.txt,.md"
+              className="mt-2 block w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-200"
+              onChange={(e) => setUploadFile(e.target.files?.[0] ?? null)}
+            />
+            {uploadError ? <p className="mt-2 text-sm text-rose-400">{uploadError}</p> : null}
+            <div className="mt-5 flex justify-end gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                className="border-zinc-700 bg-transparent"
+                onClick={() => {
+                  setUploadOpen(false);
+                  setUploadFile(null);
+                  setUploadError(null);
+                }}
+                disabled={uploadBusy}
+              >
+                Cancel
+              </Button>
+              <Button type="button" onClick={() => void runUpload()} disabled={uploadBusy || !uploadFile}>
+                {uploadBusy ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin" aria-hidden />
+                    Uploading...
+                  </>
+                ) : (
+                  "Upload"
+                )}
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
