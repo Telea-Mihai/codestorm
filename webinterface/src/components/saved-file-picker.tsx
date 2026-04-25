@@ -7,6 +7,7 @@ import { uploadRecordToFile } from "@/lib/library-file";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RefreshCcwIcon } from "lucide-react";
 
 function recordMatchesAccept(record: UploadRecord, accept: string): boolean {
   const a = accept.toLowerCase();
@@ -125,7 +126,7 @@ export function SavedFilePicker({ label, inputId, accept, file, onChange, filter
               void pickSaved(v);
             }}
           >
-            <option value="">Saved in this browser…</option>
+            <option value="">Saved</option>
             {visible.map((r) => (
               <option key={r.hash} value={r.hash}>
                 {r.displayName} ({Math.round(r.size / 1024)} KB)
@@ -133,7 +134,7 @@ export function SavedFilePicker({ label, inputId, accept, file, onChange, filter
             ))}
           </select>
           <Button type="button" variant="outline" size="sm" onClick={() => void refresh()}>
-            Refresh list
+            <RefreshCcwIcon className="size-3.5" aria-hidden />
           </Button>
         </div>
       </div>
@@ -143,22 +144,7 @@ export function SavedFilePicker({ label, inputId, accept, file, onChange, filter
           {(file.size / 1024).toFixed(1)} KB)
         </p>
       ) : null}
-      {visible.length > 0 ? (
-        <ul className="max-h-28 overflow-auto rounded-md border border-border bg-muted/20 px-2 py-1 text-xs text-muted-foreground">
-          {visible.map((r) => (
-            <li key={r.hash} className="flex items-center justify-between gap-2 py-0.5">
-              <span className="truncate">{r.displayName}</span>
-              <button
-                type="button"
-                className="shrink-0 text-destructive hover:underline"
-                onClick={(e) => void removeSaved(r.hash, e)}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
-      ) : null}
+
     </div>
   );
 }

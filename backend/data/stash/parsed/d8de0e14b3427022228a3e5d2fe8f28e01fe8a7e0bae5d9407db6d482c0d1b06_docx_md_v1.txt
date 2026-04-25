@@ -1,0 +1,361 @@
+## **Converted from PDF** 
+
+## **Page 1** 
+
+Introducere 
+
+În ecosistemul academic actual, actualizarea anuală a programelor de studiu 
+
+și migrarea conținutului pe noi șabloane reprezintă un proces administrativ 
+
+rigid, consumator de timp și predispus la erori umane. Obiectivul principal al 
+
+acestui proiect este demonstrarea aplicabilității tehnologiilor de procesare a 
+
+documentelor și AI-ului pentru a optimiza aceste fluxuri. De asemenea, 
+
+fiecare scenariu academic prezentat este însoțit de corespondentul său 
+
+direct din mediul de business, subliniind astfel scalabilitatea comercială a 
+
+soluțiilor dezvoltate. 
+
+Acest document prezintă o serie de idei de use case-uri concepute 
+
+pentru a ghida dezvoltarea unei platforme dedicate automatizării, 
+
+validării și procesării inteligente a documentelor din mediul universitar 
+
+sau în contextul organizațiilor private. Scenariile propuse sunt 
+
+structurate progresiv pe niveluri de complexitate, evoluând de la instrumente de verificare de bază la asistenți avansați: 
+
+● Nivelul 1 (Basic): Validare structurală, verificarea integrității datelor și 
+
+asigurarea coerenței matematice. 
+
+● Nivelul 2 (Intermediate): Sincronizare și mapare cross-document (corelarea cu Planul de Învățământ). 
+
+● Nivelul 3 & 4 (Advanced): Analiză semantică, migrare automată pe 
+
+șabloane noi și asistență interactivă (AI Copilot). 
+
+Notă privind aplicabilitatea Corporate 
+
+Este important de precizat că exemplele academice detaliate în acest 
+
+catalog sunt strict sugestive. Conceptul de bază și arhitectura de 
+
+digitalizare propusă sunt direct transferabile în domeniul corporate. Indiferent 
+
+dacă este vorba despre fluxuri de contracte, raportare financiară sau audit 
+
+intern, soluțiile tehnice descrise pot fi adaptate pentru a asigura 
+
+conformitatea și eficiența în orice organizație care gestionează volume mari 
+
+de documente structurate. 
+
+## **Page 2** 
+
+Notă privind aplicabilitatea Academică 
+
+Exemplele practice din acest document au la bază fluxul de date dintre Planul 
+
+de Învățământ și Fișa Disciplinei, documentele fundamentale ale procesului 
+
+educațional: 
+
+● Planul de Învățământ: Reprezintă "sursa de adevăr" (source of​ truth). 
+
+Acesta stabilește structura generală a unui program de studii, incluzând 
+
+denumirile materiilor, numărul de credite, tipul de evaluare 
+
+(examen/colocviu) și competențele profesionale sau transversale. 
+
+● Fișa Disciplinei (FD): Este documentul operațional care detaliază​ tematica unui curs, bibliografia și metodele specifice de evaluare. 
+
+● Corelare și Validare: Proiectul se concentrează pe verificarea​ conformității dintre cele două surse. Datele din FD (ex: număr credite, 
+
+formă de evaluare) trebuie să coincidă obligatoriu cu cele din Plan. 
+
+Orice discrepanță (ex: Planul prevede "Examen", iar FD prevede 
+
+"Colocviu") reprezintă o eroare de integritate care trebuie detectată. 
+
+Competențe Vizate 
+
+Prin implementarea acestor use case-uri, se urmărește dezvoltarea și validarea următoarelor competențe: 
+
+● Analiza calitativă și semantică a conținutului: Capacitatea de a​ 
+
+evalua nu doar prezența datelor, ci și calitatea acestora, detectând 
+
+formulările vagi și verificând actualitatea sau validitatea referințelor 
+
+externe (ex: bibliografie, link-uri/referințe externe). 
+
+● Monitorizarea conformității în timp real (Compliance &​ Guardrails): 
+
+Implementarea unor mecanisme de control care verifică respectarea 
+
+regulamentelor și a normelor în momentul introducerii datelor, prevenind 
+
+erorile de logică sau depășirea limitelor stabilite. 
+
+● Scalabilitate prin procesare în masă (Bulk Updates): Competența​ de 
+
+a orchestra modificări simultane pe seturi mari de documente (zeci sau 
+
+sute) atunci când se schimbă variabile administrative sau legislative 
+
+centralizate. 
+
+● Mapare structurală și transformare de date (Template Shifting):​ 
+
+Abilitatea de a migra conținut intelectual între structuri de documente 
+
+## **Page 3** 
+
+diferite, recunoscând secțiunile echivalente și adaptând informația la noi 
+
+constrângeri de format. 
+
+● Identificarea și medierea conflictelor între surse de date:​ 
+
+## Detectarea 
+
+activă a discrepanțelor între informațiile din documentele de lucru și 
+
+sursele oficiale de referință, asigurând consistența datelor la nivel 
+
+organizațional. 
+
+● Analiză comparativă vizuală și logică (Advanced Diff):​ Dezvoltarea 
+
+de instrumente care evidențiază diferențele subtile între versiuni, oferind 
+
+rapoarte explicative asupra schimbărilor de logică, nu doar simple 
+
+comparații de text. 
+
+● Definire de prompt-uri și interacțiune contextuală: Facilitarea​ unui 
+
+dialog inteligent între om și sistem (AI Copilot), permițând utilizatorului 
+
+să ghideze procesul de creare sau reformulare prin instrucțiuni specifice 
+
+adaptate contextului. 
+
+● Automatizarea proceselor de inițializare (Document​ 
+
+Bootstrapping): Capacitatea de a genera automat schelete de 
+
+documente (drafturi) prin extragerea inteligentă a datelor preexistente 
+
+din alte sisteme sau documente vechi. 
+
+Exemple 
+
+1. Nivel: Basic (Extracție și Validare Structurală) 
+
+Obiectiv: Demonstrarea capacității platformei de a "citi" și a verifica 
+
+integritatea de bază a documentelor. 
+
+● UC 1.1: „The Integrity Guard” (Validare Format & Câmpuri) Identificarea automată a fișierelor care nu respectă template-ul (font, footer, 
+
+secțiuni lipsă). 
+
+● Cerință: Generarea unui raport cu "Missing Values" (ex:​ bibliografie goală, semnături lipsă). 
+
+● Business Link: Verificarea prezenței clauzelor obligatorii​ într-un set de contracte. 
+
+● UC 1.2: „The Math Checker” (Consistență Numerică) 
+
+## **Page 4** 
+
+Verificarea sumei orelor și a ponderilor de evaluare (să însumeze 100%). 
+
+● Cerință: Alertă dacă anumite valori depășesc limite​ 
+
+prestabilite sau calculabile. 
+
+● Business Link: Validarea facturilor (sumă parțială vs. total)​ 
+
+sau a devizelor de lucrări. 
+
+Obiectiv: Oferirea de claritate profesorului asupra a ceea ce s-a schimbat, 
+
+pentru a nu mai căuta manual diferențele. 
+
+● UC 1.3: „The Syllabus Diff” (Git pentru Documente Academice) 
+
+Afișarea side-by-side a Fișei Disciplinei de anul trecut (sau a vechiului 
+
+template) și a noului format cerut, evidențiind exact diferențele. 
+
+● Cerință: Interfață vizuală cu cod de culori (Roșu = secțiuni​ eliminate/modificate în noul template; Verde = câmpuri noi adăugate care necesită completare). 
+
+● Business Link: Funcționalitățile de Track Changes avansat​ sau Compare Documents din softurile de asistență juridică (unde avocații compară două versiuni ale aceluiași contract). 
+
+● UC 1.4: „The Competency Injector” (Inițializarea documentului) La crearea unei Fișe noi, platforma citește noul Plan de Învățământ și generează un „schelet” (draft) de document. 
+
+● Cerință: Câmpurile fixe (an, credite) și noile competențe sunt​ deja completate în document, lăsând goale doar zonele de conținut (tematică, bibliografie) pe care profesorul sau asistentul AI să le ia din fișa veche. 
+
+● Business Link: Generarea automată a unei facturi proforme​ dintr-o comandă fermă, unde datele clientului și produsele sunt deja completate. 
+
+2. Nivel: Intermediate (Cross-Document Mapping) Obiectiv: Corelarea informațiilor între două surse de date diferite (FD vs. Plan de Învățământ). 
+
+● UC 2.1: „The Sync Master” (Aliniere FD - Plan de Învățământ) 
+
+Verificarea dacă denumirea materiei, numărul de credite și tipul de evaluare 
+
+din FD coincid cu cele din Planul de Învățământ (sursa de adevăr). ○ 
+
+● Cerință: Identificarea conflictelor (ex: Planul zice "Examen", FD​ zice "Colocviu"). 
+
+● Business Link: Verificarea conformității unei comenzi de​ 
+
+## **Page 5** 
+
+achiziție cu oferta comercială agreată inițial. 
+
+● UC 2.2: „The Competency Mapper” 
+
+Verificarea dacă Competențele Profesionale (CP) și Transversale (CT) 
+
+menționate în FD există în lista oficială a programului de studii. 
+
+● Cerință: Sa se verifice care CP-uri si CT-uri se potrivesc pe​ denumirea materiei + obiectivele cursului + dat recomandări 
+
+● Business Link: Verificarea cerințelor dintr-un caiet de​ sarcini față de standardele ISO sau reglementările legale. 
+
+3. Nivel: Advanced (Semantics & Intelligence) 
+
+Obiectiv: Analiza calitativă a textului și generarea de 
+
+recomandări. 
+
+● UC 3.1: „The Content Auditor” (Detectarea conținutului generic) 
+
+Identificarea secțiunilor de curs prea vagi (ex: „Introducere”, „Curs 1”) și 
+
+sugerarea de detalieri specifice pe baza titlului disciplinei. 
+
+● Cerință: Verificarea actualității bibliografiei (minim o sursă din​ ultimii 5 ani) și validarea link-urilor externe. 
+
+● Business Link: Analiza riscurilor în contracte (clauze​ 
+
+ambigue care pot genera litigii). 
+
+● UC 3.2: „The Smart Updater” (Bulk Updates) 
+
+Modificarea automată a unui set de 50 de fișe de disciplină când se 
+
+schimbă Decanul, Directorul de Departament sau când se actualizează 
+
+textul unei competențe în Plan. 
+
+● Cerință: Interfață de tip "Review & Apply" unde userul vede​ modificările propuse de AI înainte de salvarea fișierelor. 
+
+Business Link: Actualizarea automată a anexelor ●​ 
+
+contractuale pentru toți furnizorii la schimbarea legislației 
+
+GDPR sau a sediului social. 
+
+Obiectiv: Asistență completă, contextuală. Sistemul nu doar mută text, ci 
+
+îl și adaptează inteligent la noile cerințe. 
+
+● UC 3.3: „The Academic Copilot” (Agent Interactiv de Revizuire) 
+
+Un asistent AI care rulează peste noul draft de Fișă a Disciplinei (deja 
+
+pre-completat de nivelurile anterioare) și dialoghează cu profesorul 
+
+pentru a-l 
+
+rafina. 
+
+● Cerință: Funcții de tip prompt în context. Profesorul poate​ selecta o secțiune de tematică importată din fișa veche și îi 
+
+## **Page 6** 
+
+poate spune agentului: 
+
+„Reformulează acest capitol ca să includă și noțiuni de AI, pentru a se potrivi cu noua competență adăugată anul acesta în Planul de Învățământ”. Agentul generează textul, iar profesorul dă Accept sau cere rafinari acestuia. 
+
+● Business Link: GitHub Copilot pentru programatori sau​ instrumentele AI din noile suite de Office care te ajută să scrii e-mailuri/rapoarte adaptând tonul și informația la context. 
+
+● UC 3.4: „The Auto-Corrector & Validator” (Validare în timp real) Pe măsură ce profesorul interacționează cu asistentul și modifică textul, AI-ul verifică în background regulile academice. 
+
+● Cerință: Dacă profesorul îi spune AI-ului „Pune 80% pondere pe​ examenul final”, asistentul răspunde: „Conform noului regulament de anul acesta, examenul final nu poate depăși 
+
+60%. Dorești să distribui restul de 20% către activitatea de 
+
+laborator?” 
+
+● Business Link: Asistenții fiscali AI (ex: TurboTax) care te opresc​ 
+
+în timp real dacă încerci să deduci o cheltuială care contravine 
+
+legilor actualizate anul acesta. 
+
+4. Nivel: Advanced „The Template Shifter” (Migrare 
+
+Automată pe Format Nou) 
+
+Scenariu: Facultatea publică un nou fișier Word Template_FD_2026.docx. 
+
+Profesorul are FD_Mate_2025.docx. 
+
+Task: Platforma trebuie să „verse” tot conținutul intelectual din fișierul vechi în 
+
+structura nouă, respectând noile constrângeri. 
+
+Cerințe specifice pentru participanți: 
+
+● Structural Mapping: Identificarea secțiunilor echivalente chiar dacă 
+
+titlurile s-au schimbat ușor (ex: de la „Obiective” la „Rezultate 
+
+așteptate”). 
+
+● Update-uri Administrative Silențioase: Actualizarea automată a datelor care vin din exterior (numele noului Decan, data consiliului, anul universitar 2026-2027), fără ca profesorul să le tasteze. 
+
+● Detecția Schimbărilor de Logică: Dacă noul template cere acum 
+
+defalcarea orelor de laborator pe teme (și înainte erau la comun), AI-ul 
+
+trebuie să încerce să le spargă logic sau să pună un Placeholder cu 
+
+## **Page 7** 
+
+roșu: „Vă rugăm detaliați aici conform noului format”. 
+
+5. Nivel: Advanced „The Delta Report” (Ce s-a 
+
+schimbat, de fapt?) 
+
+Problemă: Profesorul primește noul template, dar nu știe ce e diferit față 
+
+de anul trecut. 
+
+Task: Generarea unui raport de tip „Diff” (ca la programare pe GitHub), 
+
+dar pe înțelesul omului. 
+
+● Vizual: „Anul acesta, secțiunea 4.2 a devenit obligatorie și a fost adăugată o cerință de bibliografie minimală de 3 titluri în loc de 2.” 
+
+● Avertizare: „Atenție! S-a schimbat ponderea maximă a examenului final 
+
+la 60% (în fișa dvs. veche era 70%). Am ajustat automat la 60%, vă rugăm să redistribuiți restul de 10%.” 
+
+● Similar Syllabus Diff, doar ca ma refeream strict la highlight uri ca pe git 
+
+cu schimbari intre 2 template-uri, nimic mai mult decat o comparatie pe 
+
+string-uri putin mai complexa.
